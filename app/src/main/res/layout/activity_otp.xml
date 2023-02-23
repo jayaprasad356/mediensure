@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="A 4-digit code was sent to"
+                android:text="A 6-digit code was sent to"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_12sdp" />
 
@@ -57,13 +57,15 @@
                 android:textColor="@color/black"
                 app:bar_height="@dimen/_2sdp"
                 app:height="@dimen/_35sdp"
-                app:length="4"
+                app:length="6"
                 app:otp_box_background="@drawable/et_bg"
                 app:otp_text_size="@dimen/_18sdp"
                 app:width="@dimen/_35sdp" />
 
 
             <TextView
+                android:visibility="gone"
+                android:id="@+id/tvResend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -203,6 +203,7 @@
 
 
             <Button
+                android:id="@+id/btnSendOTP"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -234,10 +235,13 @@
 
 
             <EditText
+                android:id="@+id/etOtp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/et_bg1"
                 android:hint=""
+                android:maxLength="6"
+                android:inputType="number"
                 android:padding="@dimen/_14sdp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey"
@@ -287,6 +291,7 @@
 
 
         <Button
+
             android:id="@+id/btnPickLocation"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_gravity="bottom"

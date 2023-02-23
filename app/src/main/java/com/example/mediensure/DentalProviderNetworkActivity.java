@@ -3,6 +3,7 @@ package com.example.mediensure;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -25,6 +26,16 @@ import com.example.mediensure.helper.ApiConfig;
 import com.example.mediensure.helper.Constant;
 import com.example.mediensure.helper.LocationTrack;
 import com.example.mediensure.helper.Session;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,12 +44,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class DentalProviderNetworkActivity extends AppCompatActivity {
 
-    EditText etAddress, etMobile, etEmail;
+    EditText etAddress, etMobile, etEmail,etOtp;
     Spinner spinner;
-    Button btnPickLocation, btnAdd;
+    Button btnPickLocation, btnAdd,btnSendOTP;
 
     ImageButton ibBack;
 
@@ -52,6 +64,12 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
     private ArrayList permissionsToRequest;
     private ArrayList permissionsRejected = new ArrayList();
     private ArrayList permissions = new ArrayList();
+
+
+    private FirebaseAuth mAuth;
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+    String TAG = "OTPACT";
+    private String mVerificationId = "";
 
 
 
@@ -71,6 +89,14 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
         spinner = findViewById(R.id.spinner);
         btnPickLocation = findViewById(R.id.btnPickLocation);
         btnAdd = findViewById(R.id.btnAdd);
+        btnSendOTP = findViewById(R.id.btnSendOTP);
+        etOtp = findViewById(R.id.etOtp);
+
+
+        btnSendOTP.setOnClickListener(v -> {
+
+            showOtp();
+        });
 
         ibBack = findViewById(R.id.ibBack);
 
@@ -91,21 +117,23 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
 
         btnAdd.setOnClickListener(v -> {
 
+            if (etOtp.getText().length() == 6){
+                if (!mVerificationId.equals("")){
+                    verifyPhoneNumberWithCode(mVerificationId,etOtp.getText().toString());
+
+                }
+                else {
+                    Toast.makeText(activity, "Invalid OTP", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+            else {
+                Toast.makeText(activity, "Enter OTP", Toast.LENGTH_SHORT).show();
+            }
+
             //etmobile length 10 and email validation and spinner validation and address validation
 
-            if (etMobile.getText().toString().length() != 10) {
-                etMobile.setError("Enter Valid Mobile Number");
-            } else if (!etEmail.getText().toString().contains("@")) {
-                etEmail.setError("Enter Valid Email");
-            } else if (spinner.getSelectedItem().toString().equals("Select Center Type")) {
-                Toast.makeText(activity, "Select Center Type", Toast.LENGTH_SHORT).show();
-            } else if (etAddress.getText().toString().isEmpty()) {
-                etAddress.setError("Enter Address");
-            } else {
-                //add to database
-
-                addDentalProvider();
-            }
 
         });
 
@@ -129,6 +157,108 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
 
 
 
+    }
+
+
+    private void showOtp() {
+        mAuth = FirebaseAuth.getInstance();
+
+        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential credential) {
+                // This callback will be invoked in two situations:
+                // 1 - Instant verification. In some cases the phone number can be instantly
+                //     verified without needing to send or enter a verification code.
+                // 2 - Auto-retrieval. On some devices Google Play services can automatically
+                //     detect the incoming verification SMS and perform verification without
+                //     user action.
+                Log.d(TAG, "onVerificationCompleted:" + credential);
+
+                signInWithPhoneAuthCredential(credential);
+            }
+
+            @Override
+            public void onVerificationFailed(FirebaseException e) {
+                // This callback is invoked in an invalid request for verification is made,
+                // for instance if the the phone number format is not valid.
+                Log.w(TAG, "onVerificationFailed", e);
+
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    // Invalid request
+                } else if (e instanceof FirebaseTooManyRequestsException) {
+                    // The SMS quota for the project has been exceeded
+                }
+
+                // Show a message and update the UI
+            }
+
+            @Override
+            public void onCodeSent(@NonNull String verificationId,
+                                   @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                // The SMS verification code has been sent to the provided phone number, we
+                // now need to ask the user to enter the code and then construct a credential
+                // by combining the code with a verification ID.
+                Log.d(TAG, "onCodeSent:" + verificationId);
+                mVerificationId = verificationId;
+
+            }
+        };
+        startPhoneNumberVerification("+91"+etMobile.toString().trim());
+
+    }
+    private void verifyPhoneNumberWithCode(String verificationId, String code) {
+        // [START verify_with_code]
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+        signInWithPhoneAuthCredential(credential);
+        // [END verify_with_code]
+    }
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+
+
+                            if (!etEmail.getText().toString().contains("@")) {
+                                etEmail.setError("Enter Valid Email");
+                            } else if (spinner.getSelectedItem().toString().equals("Select Center Type")) {
+                                Toast.makeText(activity, "Select Center Type", Toast.LENGTH_SHORT).show();
+                            } else if (etAddress.getText().toString().isEmpty()) {
+                                etAddress.setError("Enter Address");
+                            } else {
+                                //add to database
+
+                                addDentalProvider();
+                            }
+
+
+
+                            // Update UI
+                        } else {
+                            // Sign in failed, display a message and update the UI
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                // The verification code entered was invalid
+                            }
+                        }
+                    }
+                });
+    }
+    private void startPhoneNumberVerification(String phoneNumber) {
+        // [START start_phone_auth]
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(phoneNumber)       // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+        // [END start_phone_auth]
     }
 
     private void addDentalProvider() {

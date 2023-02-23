@@ -95,7 +95,9 @@ public class LoginActivity extends AppCompatActivity {
                         session.setData(Constant.NAME,jsonArray.getJSONObject(0).getString(Constant.NAME));
                         session.setData(Constant.MOBILE,jsonArray.getJSONObject(0).getString(Constant.MOBILE));
                         session.setData(Constant.EMAIL,jsonArray.getJSONObject(0).getString(Constant.EMAIL));
-                        startActivity(new Intent(activity, OtpActivity.class));
+                        Intent intent = new Intent(activity, OtpActivity.class);
+                        intent.putExtra("mobile_number",etMobile.getText().toString());
+                        startActivity(intent);
                         finish();
                     }
                     else {
