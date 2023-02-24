@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.mediensure'
+    namespace 'com.graymatter.mediensure'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.mediensure"
+        applicationId "com.graymatter.mediensure"
         minSdk 21
         targetSdk 33
         versionCode 1

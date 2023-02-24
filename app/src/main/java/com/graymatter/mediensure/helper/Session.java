@@ -1,11 +1,11 @@
-package com.example.mediensure.helper;
+package com.graymatter.mediensure.helper;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.example.mediensure.LoginActivity;
+import com.graymatter.mediensure.LoginActivity;
 
 
 public class Session {

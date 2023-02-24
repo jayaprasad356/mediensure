@@ -1,4 +1,4 @@
-package com.example.mediensure;
+package com.graymatter.mediensure;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -23,10 +23,10 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.mediensure.helper.ApiConfig;
-import com.example.mediensure.helper.Constant;
-import com.example.mediensure.helper.LocationTrack;
-import com.example.mediensure.helper.Session;
+import com.graymatter.mediensure.helper.ApiConfig;
+import com.graymatter.mediensure.helper.Constant;
+import com.graymatter.mediensure.helper.LocationTrack;
+import com.graymatter.mediensure.helper.Session;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -212,7 +212,7 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
 
             }
         };
-        startPhoneNumberVerification("+91"+etMobile.toString().trim());
+        startPhoneNumberVerification("+91"+etMobile.getText().toString().trim());
 
     }
     private void verifyPhoneNumberWithCode(String verificationId, String code) {

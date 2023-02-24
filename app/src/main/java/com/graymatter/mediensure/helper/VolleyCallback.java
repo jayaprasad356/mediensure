@@ -1,4 +1,4 @@
-package com.example.mediensure.helper;
+package com.graymatter.mediensure.helper;
 
 public interface VolleyCallback {
     void onSuccess(boolean result, String message);

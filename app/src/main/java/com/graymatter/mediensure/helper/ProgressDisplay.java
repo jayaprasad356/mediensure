@@ -1,4 +1,4 @@
-package com.example.mediensure.helper;
+package com.graymatter.mediensure.helper;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.example.mediensure.R;
+import com.graymatter.mediensure.R;
 
 
 

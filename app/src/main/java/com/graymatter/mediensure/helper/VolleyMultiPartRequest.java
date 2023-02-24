@@ -1,4 +1,4 @@
-package com.example.mediensure.helper;
+package com.graymatter.mediensure.helper;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;

@@ -1,4 +1,4 @@
-package com.example.mediensure.helper;
+package com.graymatter.mediensure.helper;
 
 public class Constant {
     public static final String MainBaseUrl = "https://mediensure.graymatterworks.com/";

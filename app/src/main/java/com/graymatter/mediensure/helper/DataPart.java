@@ -1,4 +1,4 @@
-package com.example.mediensure.helper;
+package com.graymatter.mediensure.helper;
 
 public class DataPart {
     private String fileName;

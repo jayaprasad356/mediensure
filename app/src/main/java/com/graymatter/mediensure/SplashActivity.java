@@ -1,4 +1,4 @@
-package com.example.mediensure;
+package com.graymatter.mediensure;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.mediensure.helper.Session;
+import com.graymatter.mediensure.helper.Session;
 
 public class SplashActivity extends AppCompatActivity {
 

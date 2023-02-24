@@ -1,4 +1,4 @@
-package com.example.mediensure;
+package com.graymatter.mediensure;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -13,25 +13,19 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.mediensure.helper.ApiConfig;
-import com.example.mediensure.helper.Constant;
-import com.example.mediensure.helper.LocationTrack;
-import com.example.mediensure.helper.Session;
+import com.graymatter.mediensure.helper.ApiConfig;
+import com.graymatter.mediensure.helper.Constant;
+import com.graymatter.mediensure.helper.LocationTrack;
+import com.graymatter.mediensure.helper.Session;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -52,17 +46,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class OPDActivity extends AppCompatActivity {
+public class DentalProviderNetworkActivity extends AppCompatActivity {
 
-
-    EditText etaddress, etemail, etmobile,etOtp;
+    EditText etAddress, etMobile, etEmail,etOtp;
     Spinner spinner;
+    Button btnPickLocation, btnAdd,btnSendOTP;
+
+    ImageButton ibBack;
+
     Activity activity;
     Session session;
+
+    private final static int ALL_PERMISSIONS_RESULT = 101;
+    LocationTrack locationTrack;
+    double longitude;
+    double latitude;
     private ArrayList permissionsToRequest;
     private ArrayList permissionsRejected = new ArrayList();
     private ArrayList permissions = new ArrayList();
-    Button btnPickLocation, btnAdd,btnSendOTP;
+
+
     private FirebaseAuth mAuth;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     String TAG = "OTPACT";
@@ -70,46 +73,49 @@ public class OPDActivity extends AppCompatActivity {
 
 
 
-
-    private final static int ALL_PERMISSIONS_RESULT = 101;
-    LocationTrack locationTrack;
-    double longitude;
-    double latitude;
-
-
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_IMAGE_GALLERY = 2;
-    RelativeLayout rlAddImage;
-    private ImageView imageView;
-
-    ImageButton ibBack;
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_opdactivity);
+        setContentView(R.layout.activity_dental_provider_network);
 
 
-        activity = OPDActivity.this;
+        activity = DentalProviderNetworkActivity.this;
         session = new Session(activity);
 
-        etaddress = findViewById(R.id.etAddress);
-        etemail = findViewById(R.id.etemail);
-        etmobile = findViewById(R.id.etMobile);
+        etAddress = findViewById(R.id.etAddress);
+        etMobile = findViewById(R.id.etMobile);
+        etEmail = findViewById(R.id.etEmail);
         spinner = findViewById(R.id.spinner);
         btnPickLocation = findViewById(R.id.btnPickLocation);
         btnAdd = findViewById(R.id.btnAdd);
-        rlAddImage = findViewById(R.id.rlAddImage);
-        imageView = findViewById(R.id.imageView);
         btnSendOTP = findViewById(R.id.btnSendOTP);
         etOtp = findViewById(R.id.etOtp);
 
 
+        btnSendOTP.setOnClickListener(v -> {
+
+            showOtp();
+        });
+
+        ibBack = findViewById(R.id.ibBack);
+
+        ibBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
+
+
+        btnPickLocation.setOnClickListener(v -> {
+            gpslocation();
+
+            //btnPiLoction bacckgrount Disable and tick drawable
+
+            btnPickLocation.setEnabled(false);
+            btnPickLocation.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_circle_24, 0);
+
+        });
 
         btnAdd.setOnClickListener(v -> {
-
-
 
             if (etOtp.getText().length() == 6){
                 if (!mVerificationId.equals("")){
@@ -132,39 +138,6 @@ public class OPDActivity extends AppCompatActivity {
         });
 
 
-        btnSendOTP.setOnClickListener(v -> {
-
-
-            showOtp();
-        });
-
-        ibBack = findViewById(R.id.ibBack);
-
-        ibBack.setOnClickListener(v -> {
-            onBackPressed();
-        });
-
-
-        rlAddImage.setOnClickListener(v -> {
-
-            //add image from camera and gallery
-
-            showImagePickDialog();
-
-        });
-
-        btnPickLocation.setOnClickListener(v -> {
-            gpslocation();
-
-            //btnPiLoction bacckgrount Disable and tick drawable
-
-            btnPickLocation.setEnabled(false);
-            btnPickLocation.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_circle_24, 0);
-
-        });
-
-
-
         permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);
 
@@ -179,6 +152,10 @@ public class OPDActivity extends AppCompatActivity {
             if (permissionsToRequest.size() > 0)
                 requestPermissions((String[]) permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
         }
+
+
+
+
 
     }
 
@@ -227,7 +204,7 @@ public class OPDActivity extends AppCompatActivity {
 
             }
         };
-        startPhoneNumberVerification("+91"+etmobile.toString().trim());
+        startPhoneNumberVerification("+91"+etMobile.getText().toString().trim());
 
     }
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
@@ -246,37 +223,16 @@ public class OPDActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
 
 
-                          if (etemail.getText().toString().isEmpty()) {
+                            if (!etEmail.getText().toString().contains("@")) {
+                                etEmail.setError("Enter Valid Email");
+                            } else if (spinner.getSelectedItem().toString().equals("Select Center Type")) {
+                                Toast.makeText(activity, "Select Center Type", Toast.LENGTH_SHORT).show();
+                            } else if (etAddress.getText().toString().isEmpty()) {
+                                etAddress.setError("Enter Address");
+                            } else {
+                                //add to database
 
-                                etemail.setError("Enter Valid Email");
-                                etemail.requestFocus();
-
-                            } else if (etaddress.getText().toString().isEmpty()) {
-
-                                etaddress.setError("Enter Valid Address");
-                                etaddress.requestFocus();
-
-                            } else if (spinner.getSelectedItem().toString().equals("Select")) {
-
-                                Toast.makeText(activity, "Select Valid City", Toast.LENGTH_SHORT).show();
-
-                            }
-
-                            // check the location is enable or not
-                            else if (btnPickLocation.isEnabled()) {
-
-                                Toast.makeText(activity, "Please Pick Location", Toast.LENGTH_SHORT).show();
-
-                            }
-
-
-                            else {
-
-                                //add data to database
-
-                                addOPD();
-
-
+                                addDentalProvider();
                             }
 
 
@@ -305,62 +261,39 @@ public class OPDActivity extends AppCompatActivity {
         // [END start_phone_auth]
     }
 
+    private void addDentalProvider() {
+        Map<String, String> params = new HashMap<>();
+        params.put(Constant.USER_ID, session.getData(Constant.ID));
+        params.put(Constant.LATITUDE, String.valueOf(latitude));
+        params.put(Constant.LONGITUDE, String.valueOf(longitude));
+        params.put(Constant.MOBILE, etMobile.getText().toString());
+        params.put(Constant.EMAIL, etEmail.getText().toString());
+        params.put(Constant.ADDRESS, etAddress.getText().toString());
+        params.put(Constant.CLINIC_NAME, spinner.getSelectedItem().toString());
 
-    private void showImagePickDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Pick Image From");
-        builder.setItems(new CharSequence[]{"Camera", "Gallery"},
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                pickImageFromCamera();
-                                break;
-                            case 1:
-                                pickImageFromGallery();
-                                break;
-                        }
+
+
+        ApiConfig.RequestToVolley((result, response) -> {
+            Log.d("LOGIN_RES", response);
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        Toast.makeText(activity, jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+                        JSONArray jsonArray = jsonObject.getJSONArray(Constant.DATA);
+
+
+                        startActivity(new Intent(activity, HomeActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(activity, jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
                     }
-                });
-        builder.show();
-    }
-
-
-    private void pickImageFromCamera() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
-    private void pickImageFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                // Handle image captured from camera
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                imageView.setImageBitmap(imageBitmap);
-            } else if (requestCode == REQUEST_IMAGE_GALLERY) {
-                // Handle image picked from gallery
-                Uri imageUri = data.getData();
-                imageView.setImageURI(imageUri);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-
-            // Set the visibility of the ImageView to VISIBLE
-            imageView.setVisibility(View.VISIBLE);
-            rlAddImage.setVisibility(View.GONE);
-        }
+        }, activity, Constant.ADD_DENTAL_NETWORK, params, true);
     }
-
 
 
     private void gpslocation() {
@@ -456,53 +389,5 @@ public class OPDActivity extends AppCompatActivity {
                 .show();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-    }
-
-
-    private void addOPD() {
-
-        //add data to database
-
-
-        //api
-
-        Map<String, String> params = new HashMap<>();
-        params.put(Constant.USER_ID, session.getData(Constant.ID));
-        params.put(Constant.MOBILE, etmobile.getText().toString().trim());
-        params.put(Constant.EMAIL, etemail.getText().toString().trim());
-        params.put(Constant.ADDRESS, etaddress.getText().toString().trim());
-        params.put(Constant.NAME, spinner.getSelectedItem().toString().trim());
-        params.put(Constant.LATITUDE, String.valueOf(latitude));
-        params.put(Constant.LONGITUDE, String.valueOf(longitude));
-        params.put(Constant.IMAGE, String.valueOf(imageView));
-
-
-
-        ApiConfig.RequestToVolley((result, response) -> {
-            Log.d("LOGIN_RES", response);
-            if (result) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
-                        Toast.makeText(activity, jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
-                        JSONArray jsonArray = jsonObject.getJSONArray(Constant.DATA);
-
-
-                        startActivity(new Intent(activity, HomeActivity.class));
-                        finish();
-                    } else {
-                        Toast.makeText(activity, jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, activity, Constant.ADD_OPD_NETWORK, params, true);
-
-
-    }
 }

@@ -1,4 +1,4 @@
-package com.example.mediensure;
+package com.graymatter.mediensure;
 
 import androidx.appcompat.app.AppCompatActivity;
 
