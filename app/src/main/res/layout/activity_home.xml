@@ -100,10 +100,11 @@
                 app:cardCornerRadius="@dimen/_60sdp">
 
                 <TextView
+                    android:id="@+id/tvTotalInventory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="50"
+                    android:text=""
                     android:textColor="@color/colorPrimary"
                     android:textSize="14dp"
                     android:textStyle="bold" />
@@ -129,10 +130,11 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvTodayInventory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Today - 15"
+                    android:text=""
                     android:textColor="@color/grey"
                     android:textSize="@dimen/_12sdp" />
 

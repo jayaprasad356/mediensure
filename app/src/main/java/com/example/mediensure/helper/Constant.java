@@ -43,4 +43,6 @@ public class Constant {
     public static final String OPERATIONAL_HOURS = "operational_hours";
     public static final String IMAGE = "image";
     public static final String CLINIC_NAME = "clinic_name";
+    public static final String TOTAL_INVENTORIES = "total_inventories";
+    public static final String TODAY_INVENTORIES = "today_inventories";
 }

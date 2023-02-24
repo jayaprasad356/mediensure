@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "624003079662",
+    "project_id": "mediensure-4b269",
+    "storage_bucket": "mediensure-4b269.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624003079662:android:71c5cb4f832ba08f7482ff",
+        "android_client_info": {
+          "package_name": "com.example.mediensure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624003079662-3o1ka52sm8bf8oplqd81s6nv8q9lq0lm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuqB_IwofC7unHBWbgC0OXkz0vP21PiMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624003079662-3o1ka52sm8bf8oplqd81s6nv8q9lq0lm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
