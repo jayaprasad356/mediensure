@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.graymatter.mediensure.helper.ApiConfig;
@@ -43,13 +45,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class PharmacyNetworkActivity extends AppCompatActivity {
 
-    EditText etAddress, etMobile, etEmail,etOtp;
+    EditText etAddress, etMobile, etEmail,etOtp,etFromTime,etToTime;
     Spinner spinner;
     Button btnPickLocation, btnAdd,btnSendOTP;
 
@@ -91,10 +94,65 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
         ibBack = findViewById(R.id.ibBack);
         etOtp = findViewById(R.id.etOtp);
         btnSendOTP = findViewById(R.id.btnSendOTP);
+        etFromTime = findViewById(R.id.etFromTime);
+        etToTime = findViewById(R.id.etToTime);
+
+
+        etFromTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create a Calendar instance to get the current time
+                final Calendar calendar = Calendar.getInstance();
+
+                // Create a TimePickerDialog and set the current time as the default value
+                TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                // Set the selected time to the EditText
+                                etFromTime.setText(formatTime(hourOfDay, minute));
+                            }
+                        },
+                        calendar.get(Calendar.HOUR_OF_DAY),
+                        calendar.get(Calendar.MINUTE),
+                        false); // Set is24HourView to false
+
+                // Show the TimePickerDialog
+                timePickerDialog.show();
+            }
+        });
+
+        etToTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Create a Calendar instance to get the current time
+                final Calendar calendar = Calendar.getInstance();
+
+                // Create a TimePickerDialog and set the current time as the default value
+                TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                // Set the selected time to the EditText
+                                etToTime.setText(formatTime(hourOfDay, minute));
+                            }
+                        },
+                        calendar.get(Calendar.HOUR_OF_DAY),
+                        calendar.get(Calendar.MINUTE),
+                        false); // Set is24HourView to false
+
+                // Show the TimePickerDialog
+                timePickerDialog.show();
+
+            }
+        });
+
+
+
 
 
         btnSendOTP.setOnClickListener(v -> {
-
 
             showOtp();
         });
@@ -403,5 +461,20 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+
+    // Method to format the time as a string with AM/PM
+    private String formatTime(int hour, int minute) {
+        String amPm;
+        if (hour == 12) {
+            amPm = "PM";
+        } else if (hour > 12) {
+            amPm = "PM";
+            hour -= 12;
+        } else {
+            amPm = "AM";
+        }
+
+        return String.format("%d:%02d %s", hour, minute, amPm);
     }
 }

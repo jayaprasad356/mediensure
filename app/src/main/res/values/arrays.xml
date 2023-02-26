@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
     <string-array name="array_spinner1" >
 
         <item>Clinic</item>
 
     </string-array>
+
+
+
+    <string-array name="array_spinnerkm" >
+
+        <item>2 Km</item>
+        <item>5 Km</item>
+        <item>7 Km</item>
+        <item>10 Km</item>
+
+
+    </string-array>
+
+
 </resources>

@@ -91,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(activity, jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
                         JSONArray jsonArray = jsonObject.getJSONArray(Constant.DATA);
 
+                        session.setBoolean("is_logged_in", true);
+
                         session.setData(Constant.ID,jsonArray.getJSONObject(0).getString(Constant.ID));
                         session.setData(Constant.NAME,jsonArray.getJSONObject(0).getString(Constant.NAME));
                         session.setData(Constant.MOBILE,jsonArray.getJSONObject(0).getString(Constant.MOBILE));
