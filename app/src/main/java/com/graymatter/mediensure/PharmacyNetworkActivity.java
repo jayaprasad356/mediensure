@@ -53,7 +53,6 @@ import java.util.concurrent.TimeUnit;
 public class PharmacyNetworkActivity extends AppCompatActivity {
 
     EditText etAddress, etMobile, etEmail,etOtp,etFromTime,etToTime;
-    Spinner spinner;
     Button btnPickLocation, btnAdd,btnSendOTP;
 
     ImageButton ibBack;
@@ -88,7 +87,6 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
         etAddress = findViewById(R.id.etAddress);
         etMobile = findViewById(R.id.etMobile);
         etEmail = findViewById(R.id.etEmail);
-        spinner = findViewById(R.id.spinner);
         btnPickLocation = findViewById(R.id.btnPickLocation);
         btnAdd = findViewById(R.id.btnAdd);
         ibBack = findViewById(R.id.ibBack);
@@ -182,9 +180,7 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
 
             if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
                 etEmail.setError("Enter Valid Email");
-            } else if (spinner.getSelectedItem().toString().equals("Select")) {
-                Toast.makeText(activity, "Select Type", Toast.LENGTH_SHORT).show();
-            } else if (etAddress.getText().toString().isEmpty()) {
+            }  else if (etAddress.getText().toString().isEmpty()) {
                 etAddress.setError("Enter Address");
             } else {
                 //add to database
@@ -322,7 +318,6 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
         params.put(Constant.MOBILE, etMobile.getText().toString());
         params.put(Constant.EMAIL, etEmail.getText().toString());
         params.put(Constant.ADDRESS, etAddress.getText().toString());
-        params.put(Constant.SHOP_NAME, spinner.getSelectedItem().toString());
 
 
 

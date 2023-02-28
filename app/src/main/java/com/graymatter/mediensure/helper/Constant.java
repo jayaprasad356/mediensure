@@ -33,6 +33,8 @@ public class Constant {
 
     public static final String DATA = "data";
     public static final String ADDRESS = "address";
+    public static final String ORAL_XRAY = "oral_xray";
+
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
     public static final String CENTER_TYPE = "center_type";
@@ -48,4 +50,7 @@ public class Constant {
     public static final String TODAY_INVENTORIES = "today_inventories";
     public static final String LAB_SERVICE = "lab_service";
     public static final String RADIOLOGY_SERVICE = "radiology_service";
+    public static final String RADIOLOGY_TEST = "radiology_test";
+    public static final String HOME_VISIT = "home_visit";
+
 }

@@ -24,6 +24,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -54,7 +56,6 @@ import java.util.concurrent.TimeUnit;
 
 public class LabNetworkActivity extends AppCompatActivity {
 
-    Spinner spinner;
     EditText etMobile, etEmail, etAddress,etCenterManager,etCenterOperationalHours,etCenterAddress,etOtp;
     Button btnAdd, btnPickLocation,btnSendOTP;
     ImageButton ibBack;
@@ -79,8 +80,9 @@ public class LabNetworkActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_GALLERY = 2;
     RelativeLayout rlAddImage;
     private ImageView imageView;
-
-
+    RadioGroup homeVisit,radiology;
+    RadioButton homevisitYes,radiologyYes;
+    String homevisitData="yes",radiologyData="yes";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -93,7 +95,6 @@ public class LabNetworkActivity extends AppCompatActivity {
 
 
 
-        spinner = findViewById(R.id.spinner);
         etMobile = findViewById(R.id.etMobile);
         etEmail = findViewById(R.id.etEmail);
         etAddress = findViewById(R.id.etAddress);
@@ -108,8 +109,32 @@ public class LabNetworkActivity extends AppCompatActivity {
         btnSendOTP = findViewById(R.id.btnSendOTP);
         etOtp = findViewById(R.id.etOtp);
 
+        homeVisit = findViewById(R.id.rgHomeVisit);
+        homevisitYes = findViewById(R.id.rbYes);
+        homevisitYes.setChecked(true);
 
+        radiology=findViewById(R.id.rgRadiology);
+        radiologyYes=findViewById(R.id.rbyesradio);
+        radiologyYes.setChecked(true);
 
+        homeVisit.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton checkedRadioButton = group.findViewById(checkedId);
+                String radioButtonText = checkedRadioButton.getText().toString();
+                // Toast.makeText(getApplicationContext(), "Selected: " + radioButtonText, Toast.LENGTH_SHORT).show();
+                homevisitData = radioButtonText.toString().trim();
+            }
+        });
+        radiology.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton checkedRadioButton = group.findViewById(checkedId);
+                String radioButtonText = checkedRadioButton.getText().toString();
+                // Toast.makeText(getApplicationContext(), "Selected: " + radioButtonText, Toast.LENGTH_SHORT).show();
+                radiologyData = radioButtonText.toString().trim();
+            }
+        });
 
         btnSendOTP.setOnClickListener(v -> {
 
@@ -251,8 +276,6 @@ public class LabNetworkActivity extends AppCompatActivity {
 
                             if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
                                 etEmail.setError("Enter Valid Email");
-                            } else if (spinner.getSelectedItem().toString().equals("Select Center Type")) {
-                                Toast.makeText(activity, "Select Center Type", Toast.LENGTH_SHORT).show();
                             } else if (etCenterManager.getText().toString().isEmpty()) {
                                 etCenterManager.setError("Enter Center Manager Name");
                             } else if (etCenterOperationalHours.getText().toString().isEmpty()) {
@@ -354,12 +377,12 @@ public class LabNetworkActivity extends AppCompatActivity {
         params.put(Constant.LONGITUDE, String.valueOf(longitude));
         params.put(Constant.MOBILE, etMobile.getText().toString());
         params.put(Constant.EMAIL, etEmail.getText().toString());
-        params.put(Constant.CENTER_NAME, spinner.getSelectedItem().toString());
         params.put(Constant.MANAGER_NAME, etCenterManager.getText().toString());
         params.put(Constant.OPERATIONAL_HOURS, etCenterOperationalHours.getText().toString());
         params.put(Constant.CENTER_ADDRESS, etCenterAddress.getText().toString());
         params.put(Constant.IMAGE, String.valueOf(imageView));
-
+        params.put(Constant.RADIOLOGY_TEST, radiologyData);
+        params.put(Constant.HOME_VISIT, homevisitData);
 
 
         ApiConfig.RequestToVolley((result, response) -> {

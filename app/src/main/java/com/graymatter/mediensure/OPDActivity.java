@@ -86,8 +86,8 @@ public class OPDActivity extends AppCompatActivity {
     private ImageView imageView;
 
     ImageButton ibBack;
-    String Radiology;
-    String Lab;
+    String Radiology="yes";
+    String Lab="yes";
 
     @SuppressLint("MissingInflatedId")
     @Override

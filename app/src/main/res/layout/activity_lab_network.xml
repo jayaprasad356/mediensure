@@ -116,12 +116,14 @@
 
 
             <RadioGroup
+                android:id="@+id/rgHomeVisit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 >
 
                 <RadioButton
+                    android:id="@+id/rbYes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="yes"
@@ -161,16 +163,17 @@
 
 
             <RadioGroup
+                android:id="@+id/rgRadiology"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 >
 
                 <RadioButton
+                    android:id="@+id/rbyesradio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="yes"
-                    />
+                    android:text="yes" />
 
                 <Space
                     android:layout_width="@dimen/_20sdp"

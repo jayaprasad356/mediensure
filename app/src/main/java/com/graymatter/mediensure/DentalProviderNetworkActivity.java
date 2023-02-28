@@ -21,6 +21,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -52,9 +54,8 @@ import java.util.concurrent.TimeUnit;
 
 public class DentalProviderNetworkActivity extends AppCompatActivity {
 
-    EditText etAddress, etMobile, etEmail,etOtp,etFromTime,etToTime;
-    Spinner spinner;
-    Button btnPickLocation, btnAdd,btnSendOTP;
+    EditText etAddress, etMobile, etEmail, etOtp, etFromTime, etToTime;
+    Button btnPickLocation, btnAdd, btnSendOTP;
 
     ImageButton ibBack;
 
@@ -74,8 +75,9 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     String TAG = "OTPACT";
     private String mVerificationId = "";
-
-
+    RadioGroup oralXrayRG;
+    RadioButton rbYes;
+    String xray="yes";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -90,16 +92,29 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
         etAddress = findViewById(R.id.etAddress);
         etMobile = findViewById(R.id.etMobile);
         etEmail = findViewById(R.id.etEmail);
-        spinner = findViewById(R.id.spinner);
         btnPickLocation = findViewById(R.id.btnPickLocation);
         btnAdd = findViewById(R.id.btnAdd);
         btnSendOTP = findViewById(R.id.btnSendOTP);
         etOtp = findViewById(R.id.etOtp);
+        oralXrayRG = findViewById(R.id.oralXrayRG);
+        rbYes=findViewById(R.id.rbYes);
+        rbYes.setChecked(true);
 
 
         etFromTime = findViewById(R.id.etFromTime);
         etToTime = findViewById(R.id.etToTime);
+        oralXrayRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton checkedRadioButton = group.findViewById(checkedId);
+                String radioButtonText = checkedRadioButton.getText().toString();
+                // Toast.makeText(getApplicationContext(), "Selected: " + radioButtonText, Toast.LENGTH_SHORT).show();
 
+                xray = radioButtonText.toString().trim();
+
+
+            }
+        });
 
         etFromTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,18 +190,16 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
 
         btnAdd.setOnClickListener(v -> {
 
-            if (etOtp.getText().length() == 6){
-                if (!mVerificationId.equals("")){
-                    verifyPhoneNumberWithCode(mVerificationId,etOtp.getText().toString());
+            if (etOtp.getText().length() == 6) {
+                if (!mVerificationId.equals("")) {
+                    verifyPhoneNumberWithCode(mVerificationId, etOtp.getText().toString());
 
-                }
-                else {
+                } else {
                     Toast.makeText(activity, "Invalid OTP", Toast.LENGTH_SHORT).show();
                 }
 
 
-            }
-            else {
+            } else {
                 Toast.makeText(activity, "Enter OTP", Toast.LENGTH_SHORT).show();
             }
 
@@ -210,9 +223,6 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
             if (permissionsToRequest.size() > 0)
                 requestPermissions((String[]) permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
         }
-
-
-
 
 
     }
@@ -262,15 +272,17 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
 
             }
         };
-        startPhoneNumberVerification("+91"+etMobile.getText().toString().trim());
+        startPhoneNumberVerification("+91" + etMobile.getText().toString().trim());
 
     }
+
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
         // [START verify_with_code]
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signInWithPhoneAuthCredential(credential);
         // [END verify_with_code]
     }
+
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -283,16 +295,13 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
 
                             if (!etEmail.getText().toString().contains("@")) {
                                 etEmail.setError("Enter Valid Email");
-                            } else if (spinner.getSelectedItem().toString().equals("Select Center Type")) {
-                                Toast.makeText(activity, "Select Center Type", Toast.LENGTH_SHORT).show();
-                            } else if (etAddress.getText().toString().isEmpty()) {
+                            }else if (etAddress.getText().toString().isEmpty()) {
                                 etAddress.setError("Enter Address");
                             } else {
                                 //add to database
 
                                 addDentalProvider();
                             }
-
 
 
                             // Update UI
@@ -306,6 +315,7 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
                     }
                 });
     }
+
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
         PhoneAuthOptions options =
@@ -327,8 +337,7 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
         params.put(Constant.MOBILE, etMobile.getText().toString());
         params.put(Constant.EMAIL, etEmail.getText().toString());
         params.put(Constant.ADDRESS, etAddress.getText().toString());
-        params.put(Constant.CLINIC_NAME, spinner.getSelectedItem().toString());
-
+        params.put(Constant.ORAL_XRAY, xray);
 
 
         ApiConfig.RequestToVolley((result, response) -> {
