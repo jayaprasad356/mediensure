@@ -180,20 +180,16 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(v -> {
 
 
+            if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+                etEmail.setError("Enter Valid Email");
+            } else if (spinner.getSelectedItem().toString().equals("Select")) {
+                Toast.makeText(activity, "Select Type", Toast.LENGTH_SHORT).show();
+            } else if (etAddress.getText().toString().isEmpty()) {
+                etAddress.setError("Enter Address");
+            } else {
+                //add to database
 
-            if (etOtp.getText().length() == 6){
-                if (!mVerificationId.equals("")){
-                    verifyPhoneNumberWithCode(mVerificationId,etOtp.getText().toString());
-
-                }
-                else {
-                    Toast.makeText(activity, "Invalid OTP", Toast.LENGTH_SHORT).show();
-                }
-
-
-            }
-            else {
-                Toast.makeText(activity, "Enter OTP", Toast.LENGTH_SHORT).show();
+                addPharmacy();
             }
 
             //etmobile length 10 and email validation and spinner validation and address validation
@@ -289,17 +285,7 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
 
 
-                          if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
-                                etEmail.setError("Enter Valid Email");
-                            } else if (spinner.getSelectedItem().toString().equals("Select")) {
-                                Toast.makeText(activity, "Select Type", Toast.LENGTH_SHORT).show();
-                            } else if (etAddress.getText().toString().isEmpty()) {
-                                etAddress.setError("Enter Address");
-                            } else {
-                                //add to database
 
-                                addPharmacy();
-                            }
 
 
 

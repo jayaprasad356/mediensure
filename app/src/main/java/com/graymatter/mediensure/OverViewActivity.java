@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 
 public class OverViewActivity extends AppCompatActivity {
 
-    LinearLayout llDentalNetwork,llPharmacyNetwork,llLabNetwork,llOpdNetwork;
+    LinearLayout llDentalNetwork,llPharmacyNetwork,llLabNetwork,llOpdNetwork,llRadiologyNetwork;
     ImageButton ibBack;
 
     @SuppressLint("MissingInflatedId")
@@ -23,6 +25,7 @@ public class OverViewActivity extends AppCompatActivity {
         llLabNetwork = findViewById(R.id.llLabNetwork);
         llPharmacyNetwork = findViewById(R.id.llPharmacyNetwork);
         llDentalNetwork = findViewById(R.id.llDentalNetwork);
+        llRadiologyNetwork = findViewById(R.id.llRadiologyNetwork);
 
         ibBack = findViewById(R.id.ibBack);
         ibBack.setOnClickListener(v -> {
@@ -48,6 +51,15 @@ public class OverViewActivity extends AppCompatActivity {
         llDentalNetwork.setOnClickListener(v -> {
             startActivity(new Intent(OverViewActivity.this, DentalProviderNetworkActivity.class));
 
+        });
+
+        llRadiologyNetwork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(OverViewActivity.this, RadiologyNetwork.class));
+
+            }
         });
     }
 }

@@ -80,15 +80,16 @@
 
 
 
-                    <Spinner
-                        android:id="@+id/spinner"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:drawSelectorOnTop="true"
-                        android:entries="@array/array_spinner1"
-                        style="@style/SpinnerTheme"
-                        android:padding="@dimen/_20sdp"
-                        />
+                    <EditText
+                    android:id="@+id/etShopName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_bg1"
+                    android:hint=""
+                    android:padding="@dimen/_14sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/_10sdp" />
 
                 </RelativeLayout>
 
@@ -147,19 +148,14 @@
                     >
 
 
-
-
-
-
                     <Spinner
                         android:id="@+id/spinnerKM"
+                        style="@style/SpinnerTheme"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:drawSelectorOnTop="true"
                         android:entries="@array/array_spinnerkm"
-                        style="@style/SpinnerTheme"
-                        android:padding="@dimen/_20sdp"
-                        />
+                        android:padding="@dimen/_20sdp" />
 
                 </RelativeLayout>
 
@@ -376,6 +372,42 @@
             </LinearLayout>
 
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Image"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="30dp"
+                android:textSize="@dimen/_12sdp"/>
+
+
+            <RelativeLayout
+                android:id="@+id/rlAddImage"
+                android:layout_width="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/et_bg"
+
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No File Chosen"
+                    android:textColor="@color/black"
+                    />
+
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:visibility="gone"
+                android:id="@+id/imageView"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp" />
 
 
 

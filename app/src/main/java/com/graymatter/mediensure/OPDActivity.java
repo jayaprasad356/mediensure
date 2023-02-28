@@ -24,6 +24,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -67,6 +69,7 @@ public class OPDActivity extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     String TAG = "OTPACT";
     private String mVerificationId = "";
+    RadioGroup rgLabService,rgRadiology;
 
 
 
@@ -83,12 +86,14 @@ public class OPDActivity extends AppCompatActivity {
     private ImageView imageView;
 
     ImageButton ibBack;
+    String Radiology;
+    String Lab;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_opdactivity);
+        setContentView(R.layout.activity_opdnetwork);
 
 
         activity = OPDActivity.this;
@@ -104,6 +109,36 @@ public class OPDActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         btnSendOTP = findViewById(R.id.btnSendOTP);
         etOtp = findViewById(R.id.etOtp);
+        rgLabService = findViewById(R.id.rbLabService);
+        rgRadiology = findViewById(R.id.rgRadiology);
+
+
+        rgLabService.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton checkedRadioButton = group.findViewById(checkedId);
+                String radioButtonText = checkedRadioButton.getText().toString();
+               // Toast.makeText(getApplicationContext(), "Selected: " + radioButtonText, Toast.LENGTH_SHORT).show();
+
+
+                 Lab = radioButtonText.toString().trim();
+
+
+            }
+        });
+        rgRadiology.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton checkedRadioButton = group.findViewById(checkedId);
+                String radioButtonText = checkedRadioButton.getText().toString();
+               // Toast.makeText(getApplicationContext(), "Selected: " + radioButtonText, Toast.LENGTH_SHORT).show();
+
+
+                Radiology = radioButtonText.toString().trim();
+
+
+            }
+        });
 
 
 
@@ -111,23 +146,38 @@ public class OPDActivity extends AppCompatActivity {
 
 
 
-            if (etOtp.getText().length() == 6){
-                if (!mVerificationId.equals("")){
-                    verifyPhoneNumberWithCode(mVerificationId,etOtp.getText().toString());
+            if (etemail.getText().toString().isEmpty()) {
 
-                }
-                else {
-                    Toast.makeText(activity, "Invalid OTP", Toast.LENGTH_SHORT).show();
-                }
+                etemail.setError("Enter Valid Email");
+                etemail.requestFocus();
 
+            } else if (etaddress.getText().toString().isEmpty()) {
+
+                etaddress.setError("Enter Valid Address");
+                etaddress.requestFocus();
+
+            } else if (spinner.getSelectedItem().toString().equals("Select")) {
+
+                Toast.makeText(activity, "Select Valid City", Toast.LENGTH_SHORT).show();
 
             }
+
+            // check the location is enable or not
+            else if (btnPickLocation.isEnabled()) {
+
+                Toast.makeText(activity, "Please Pick Location", Toast.LENGTH_SHORT).show();
+
+            }
+
+
             else {
-                Toast.makeText(activity, "Enter OTP", Toast.LENGTH_SHORT).show();
+
+                //add data to database
+
+                addOPD();
+
+
             }
-
-            //etmobile length 10 and email validation and spinner validation and address validation
-
 
         });
 
@@ -246,38 +296,6 @@ public class OPDActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
 
 
-                          if (etemail.getText().toString().isEmpty()) {
-
-                                etemail.setError("Enter Valid Email");
-                                etemail.requestFocus();
-
-                            } else if (etaddress.getText().toString().isEmpty()) {
-
-                                etaddress.setError("Enter Valid Address");
-                                etaddress.requestFocus();
-
-                            } else if (spinner.getSelectedItem().toString().equals("Select")) {
-
-                                Toast.makeText(activity, "Select Valid City", Toast.LENGTH_SHORT).show();
-
-                            }
-
-                            // check the location is enable or not
-                            else if (btnPickLocation.isEnabled()) {
-
-                                Toast.makeText(activity, "Please Pick Location", Toast.LENGTH_SHORT).show();
-
-                            }
-
-
-                            else {
-
-                                //add data to database
-
-                                addOPD();
-
-
-                            }
 
 
 
@@ -479,6 +497,8 @@ public class OPDActivity extends AppCompatActivity {
         params.put(Constant.LATITUDE, String.valueOf(latitude));
         params.put(Constant.LONGITUDE, String.valueOf(longitude));
         params.put(Constant.IMAGE, String.valueOf(imageView));
+        params.put(Constant.LAB_SERVICE, Lab.toString().trim());
+        params.put(Constant.RADIOLOGY_SERVICE, Radiology.toString().trim());
 
 
 

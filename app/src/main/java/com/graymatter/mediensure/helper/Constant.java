@@ -12,6 +12,7 @@ public class Constant {
     public static final String ADD_LAB_NETWORK = BaseUrl + "add-lab_network.php";
     public static final String ADD_DENTAL_NETWORK = BaseUrl + "add-dental_network.php";
     public static final String ADD_PHARMACY_NETWORK = BaseUrl + "add-pharmacy_network.php";
+    public static final String ADD_RADIOLOGY_NETWORK = BaseUrl + "add-radiology_network.php";
     public static final String USERDETAILS = BaseUrl + "userdetails.php";
     public static final String UPDATE_PROFILE = BaseUrl + "update_profile.php";
 
@@ -45,4 +46,6 @@ public class Constant {
     public static final String CLINIC_NAME = "clinic_name";
     public static final String TOTAL_INVENTORIES = "total_inventories";
     public static final String TODAY_INVENTORIES = "today_inventories";
+    public static final String LAB_SERVICE = "lab_service";
+    public static final String RADIOLOGY_SERVICE = "radiology_service";
 }

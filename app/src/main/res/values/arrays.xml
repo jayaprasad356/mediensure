@@ -4,7 +4,8 @@
 
     <string-array name="array_spinner1" >
 
-        <item>Clinic/Hospital</item>
+        <item>Clinic</item>
+        <item>Hospital</item>
 
     </string-array>
 

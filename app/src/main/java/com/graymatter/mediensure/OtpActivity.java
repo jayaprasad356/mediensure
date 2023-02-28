@@ -82,7 +82,6 @@ public class OtpActivity extends AppCompatActivity {
         mobilenumber = getIntent().getStringExtra("mobile_number");
         tvMobile.setText("+91 "+mobilenumber);
 
-        Toast.makeText(activity, ""+getIntent().getStringExtra("mobile_number"), Toast.LENGTH_SHORT).show();
         mAuth = FirebaseAuth.getInstance();
 
 

@@ -113,12 +113,15 @@
 
 
                 <RadioGroup
+                    android:id="@+id/rbLabService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:checkedButton="@+id/labButtonYes"
                     android:orientation="horizontal"
                     >
 
                     <RadioButton
+                        android:id="@+id/labButtonYes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="yes"
@@ -130,12 +133,15 @@
                         />
 
                     <RadioButton
+                        android:id="@+id/labButtonNo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="No"
                         />
 
                 </RadioGroup>
+
+
 
 
 
@@ -158,12 +164,15 @@
 
 
                 <RadioGroup
+                    android:id="@+id/rgRadiology"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:checkedButton="@+id/rbRadiologyYes"
                     >
 
                     <RadioButton
+                        android:id="@+id/rbRadiologyYes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="yes"
@@ -175,6 +184,7 @@
                         />
 
                     <RadioButton
+                        android:id="@+id/rbRadiologyNo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="No"

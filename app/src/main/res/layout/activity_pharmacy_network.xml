@@ -80,15 +80,16 @@
 
 
 
-                    <Spinner
-                        android:id="@+id/spinner"
-                        android:layout_width="fill_parent"
+                    <EditText
+                        android:id="@+id/etShopName"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawSelectorOnTop="true"
-                        android:entries="@array/array_spinner1"
-                        style="@style/SpinnerTheme"
-                        android:padding="@dimen/_20sdp"
-                        />
+                        android:background="@drawable/et_bg1"
+                        android:hint=""
+                        android:padding="@dimen/_14sdp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey"
+                        android:textSize="@dimen/_10sdp" />
 
                 </RelativeLayout>
 

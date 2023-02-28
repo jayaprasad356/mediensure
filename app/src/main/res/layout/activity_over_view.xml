@@ -309,6 +309,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/llRadiologyNetwork"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -328,9 +329,12 @@
                             android:layout_gravity="center"
                             android:layout_width="@dimen/_18sdp"
                             android:layout_height="@dimen/_18sdp"
-                            android:background="@drawable/ic_flask"
+                            android:background="@drawable/ic_radiology"
+                            android:backgroundTint="@color/colorPrimary"
                             android:padding="@dimen/_8sdp"
-                            android:src="@drawable/ic_profile" />
+                            android:src="@drawable/ic_profile"
+
+                            />
 
                     </com.google.android.material.card.MaterialCardView>
 
