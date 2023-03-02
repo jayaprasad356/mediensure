@@ -146,7 +146,7 @@ public class OPDActivity extends AppCompatActivity {
 
 
 
-            if (etemail.getText().toString().isEmpty()) {
+            if (!etemail.getText().toString().contains("@")) {
 
                 etemail.setError("Enter Valid Email");
                 etemail.requestFocus();
@@ -167,10 +167,10 @@ public class OPDActivity extends AppCompatActivity {
 
                 Toast.makeText(activity, "Please Pick Location", Toast.LENGTH_SHORT).show();
 
-            }
+            } else if (etmobile.getText().toString().isEmpty()) {
+                Toast.makeText(activity, "Please Enter Mobile Number", Toast.LENGTH_SHORT).show();
 
-
-            else {
+            } else {
 
                 //add data to database
 

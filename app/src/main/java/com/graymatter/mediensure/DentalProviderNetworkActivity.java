@@ -54,7 +54,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DentalProviderNetworkActivity extends AppCompatActivity {
 
-    EditText etAddress, etMobile, etEmail, etOtp, etFromTime, etToTime;
+    EditText etAddress, etMobile, etEmail, etOtp, etFromTime, etToTime,etName,etIncharege;
     Button btnPickLocation, btnAdd, btnSendOTP;
 
     ImageButton ibBack;
@@ -77,7 +77,7 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
     private String mVerificationId = "";
     RadioGroup oralXrayRG;
     RadioButton rbYes;
-    String xray="yes";
+    String xray = "yes";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -90,6 +90,8 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
         session = new Session(activity);
 
         etAddress = findViewById(R.id.etAddress);
+        etName=findViewById(R.id.etName);
+        etIncharege=findViewById(R.id.etIncharge);
         etMobile = findViewById(R.id.etMobile);
         etEmail = findViewById(R.id.etEmail);
         btnPickLocation = findViewById(R.id.btnPickLocation);
@@ -97,7 +99,7 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
         btnSendOTP = findViewById(R.id.btnSendOTP);
         etOtp = findViewById(R.id.etOtp);
         oralXrayRG = findViewById(R.id.oralXrayRG);
-        rbYes=findViewById(R.id.rbYes);
+        rbYes = findViewById(R.id.rbYes);
         rbYes.setChecked(true);
 
 
@@ -189,18 +191,20 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
         });
 
         btnAdd.setOnClickListener(v -> {
+            if (verification()) {
+                if (etOtp.getText().length() == 6) {
+                    if (!mVerificationId.equals("")) {
+                        verifyPhoneNumberWithCode(mVerificationId, etOtp.getText().toString());
 
-            if (etOtp.getText().length() == 6) {
-                if (!mVerificationId.equals("")) {
-                    verifyPhoneNumberWithCode(mVerificationId, etOtp.getText().toString());
+                    } else {
+                        Toast.makeText(activity, "Invalid OTP", Toast.LENGTH_SHORT).show();
+                    }
+
 
                 } else {
-                    Toast.makeText(activity, "Invalid OTP", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Enter OTP", Toast.LENGTH_SHORT).show();
                 }
 
-
-            } else {
-                Toast.makeText(activity, "Enter OTP", Toast.LENGTH_SHORT).show();
             }
 
             //etmobile length 10 and email validation and spinner validation and address validation
@@ -295,7 +299,7 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
 
                             if (!etEmail.getText().toString().contains("@")) {
                                 etEmail.setError("Enter Valid Email");
-                            }else if (etAddress.getText().toString().isEmpty()) {
+                            } else if (etAddress.getText().toString().isEmpty()) {
                                 etAddress.setError("Enter Address");
                             } else {
                                 //add to database
@@ -469,6 +473,35 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
         }
 
         return String.format("%d:%02d %s", hour, minute, amPm);
+    }
+
+    boolean verification() {
+        if (!etEmail.getText().toString().contains("@")) {
+            etEmail.setError("Enter Valid Email");
+            return false;
+        } else if (etAddress.getText().toString().isEmpty()) {
+            etAddress.setError("Enter Address");
+            return false;
+        } else if (etName.getText().toString().isEmpty()) {
+            etName.setError("Enter Dental Name");
+            return false;
+        }else if (etFromTime.getText().toString().isEmpty()) {
+            etFromTime.setError("Enter From Time");
+            return false;
+        }else if (etToTime.getText().toString().isEmpty()) {
+            etToTime.setError("Enter To Time");
+            return false;
+        }else if (etMobile.getText().toString().isEmpty()) {
+            etMobile.setError("Enter Mobile Number");
+            return false;
+        }else if (etOtp.getText().toString().isEmpty()) {
+            etOtp.setError("Enter Otp");
+            return false;
+        }else if (etIncharege.getText().toString().isEmpty()) {
+            etIncharege.setError("Enter Owner or incharge Name");
+            return false;
+        }
+        return true;
     }
 
 }

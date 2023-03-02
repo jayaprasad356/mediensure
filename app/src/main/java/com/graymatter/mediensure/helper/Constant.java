@@ -15,11 +15,17 @@ public class Constant {
     public static final String ADD_RADIOLOGY_NETWORK = BaseUrl + "add-radiology_network.php";
     public static final String USERDETAILS = BaseUrl + "userdetails.php";
     public static final String UPDATE_PROFILE = BaseUrl + "update_profile.php";
-
+    public static final String RADIOLOGY_NETWORK_LIST = BaseUrl + "radiology_network-list.php";
+    public static final String OPD_NETWORK_LIST = BaseUrl + "opd_network-list.php";
+    public static final String DENTAL_NETWORK_LIST = BaseUrl + "dental_network-list.php";
+    public static final String PHARMACY_NETWORK_LIST = BaseUrl + "pharmacy_network-list.php";
+    public static final String LAB_NETWORK_LIST = BaseUrl + "lab_network-list.php";
 
     public static final String MOBILE = "mobile";
     public static final String ID = "id";
     public static final String USER_ID = "user_id";
+    public static final String STATUS = "status";
+    public static final String REMARKS = "remarks";
 
     public static final String NAME = "name";
     public static final String SEARCH = "search";
@@ -45,6 +51,8 @@ public class Constant {
     public static final String MANAGER_NAME = "manager_name";
     public static final String OPERATIONAL_HOURS = "operational_hours";
     public static final String IMAGE = "image";
+    public static final String DATETIME = "datetime";
+
     public static final String CLINIC_NAME = "clinic_name";
     public static final String TOTAL_INVENTORIES = "total_inventories";
     public static final String TODAY_INVENTORIES = "today_inventories";

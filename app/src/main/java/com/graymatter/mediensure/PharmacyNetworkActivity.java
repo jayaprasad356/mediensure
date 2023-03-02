@@ -52,7 +52,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PharmacyNetworkActivity extends AppCompatActivity {
 
-    EditText etAddress, etMobile, etEmail,etOtp,etFromTime,etToTime;
+    EditText etAddress, etMobile, etEmail,etOtp,etFromTime,etToTime,etShopName,etName;
     Button btnPickLocation, btnAdd,btnSendOTP;
 
     ImageButton ibBack;
@@ -85,6 +85,8 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
 
 
         etAddress = findViewById(R.id.etAddress);
+        etShopName=findViewById(R.id.etShopName);
+        etName=findViewById(R.id.etName);
         etMobile = findViewById(R.id.etMobile);
         etEmail = findViewById(R.id.etEmail);
         btnPickLocation = findViewById(R.id.btnPickLocation);
@@ -182,7 +184,19 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
                 etEmail.setError("Enter Valid Email");
             }  else if (etAddress.getText().toString().isEmpty()) {
                 etAddress.setError("Enter Address");
-            } else {
+            } else if (etShopName.getText().toString().isEmpty()) {
+                etShopName.setError("Enter shop Name");
+            } else if (etMobile.getText().toString().isEmpty()) {
+                etMobile.setError("Enter Mobile Number");
+            }else if (etFromTime.getText().toString().isEmpty()) {
+                Toast.makeText(activity, "set From Time", Toast.LENGTH_SHORT).show();
+            }else if (etToTime.getText().toString().isEmpty()) {
+                Toast.makeText(activity, "set To Time", Toast.LENGTH_SHORT).show();
+            }else if (etName.getText().toString().isEmpty()) {
+                etName.setError("Enter Owner or Incharge Name");
+            }else if (etOtp.getText().toString().isEmpty()) {
+                etOtp.setError("Enter OTP");
+            }else {
                 //add to database
 
                 addPharmacy();

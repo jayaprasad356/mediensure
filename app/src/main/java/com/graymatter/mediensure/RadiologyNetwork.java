@@ -92,8 +92,6 @@ public class RadiologyNetwork extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_radiology_network);
 
-
-
         activity = RadiologyNetwork.this;
         session = new Session(activity);
 
@@ -200,7 +198,9 @@ public class RadiologyNetwork extends AppCompatActivity {
             if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
                 etEmail.setError("Enter Valid Email");
             }
-
+            else if(etName.getText().toString().isEmpty()){
+                etName.setError("Enter Owner or Incharge Name");
+            }
             else if(etShopName.getText().toString().isEmpty()){
                 etShopName.setError("Enter Shop Name");
             }

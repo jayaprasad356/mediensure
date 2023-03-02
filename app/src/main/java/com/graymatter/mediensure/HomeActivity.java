@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
     MaterialCardView cvProfile,cvMenu;
-    Button btnAddNewInventory;
+    Button btnAddNewInventory,btnEditExistingInvent;
     TextView tvName,tvTotalInventory,tvTodayInventory;
     Activity activity;
     Session session;
@@ -45,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         user_detail();
         cvProfile = findViewById(R.id.cvProfile);
         btnAddNewInventory = findViewById(R.id.btnAddNewInventory);
+        btnEditExistingInvent=findViewById(R.id.btnEditExistingInvent);
         tvName = findViewById(R.id.tvName);
         tvTotalInventory = findViewById(R.id.tvTotalInventory);
         tvTodayInventory = findViewById(R.id.tvTodayInventory);
@@ -60,6 +61,10 @@ public class HomeActivity extends AppCompatActivity {
 
         btnAddNewInventory.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, OverViewActivity.class);
+            startActivity(intent);
+        });
+        btnEditExistingInvent.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, TabActivity.class);
             startActivity(intent);
         });
 

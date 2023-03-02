@@ -56,8 +56,8 @@ import java.util.concurrent.TimeUnit;
 
 public class LabNetworkActivity extends AppCompatActivity {
 
-    EditText etMobile, etEmail, etAddress,etCenterManager,etCenterOperationalHours,etCenterAddress,etOtp;
-    Button btnAdd, btnPickLocation,btnSendOTP;
+    EditText etMobile, etEmail, etAddress, etCenterManager, etCenterOperationalHours, etCenterAddress, etOtp,etCenterName;
+    Button btnAdd, btnPickLocation, btnSendOTP;
     ImageButton ibBack;
 
     Activity activity;
@@ -80,9 +80,9 @@ public class LabNetworkActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_GALLERY = 2;
     RelativeLayout rlAddImage;
     private ImageView imageView;
-    RadioGroup homeVisit,radiology;
-    RadioButton homevisitYes,radiologyYes;
-    String homevisitData="yes",radiologyData="yes";
+    RadioGroup homeVisit, radiology;
+    RadioButton homevisitYes, radiologyYes;
+    String homevisitData = "yes", radiologyData = "yes";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -94,11 +94,11 @@ public class LabNetworkActivity extends AppCompatActivity {
         session = new Session(activity);
 
 
-
         etMobile = findViewById(R.id.etMobile);
         etEmail = findViewById(R.id.etEmail);
         etAddress = findViewById(R.id.etAddress);
         etCenterManager = findViewById(R.id.etCenterManager);
+        etCenterName=findViewById(R.id.etCenterName);
         etCenterOperationalHours = findViewById(R.id.etCenterOperationalHours);
         etCenterAddress = findViewById(R.id.etCenterAddress);
         btnAdd = findViewById(R.id.btnAdd);
@@ -113,8 +113,8 @@ public class LabNetworkActivity extends AppCompatActivity {
         homevisitYes = findViewById(R.id.rbYes);
         homevisitYes.setChecked(true);
 
-        radiology=findViewById(R.id.rgRadiology);
-        radiologyYes=findViewById(R.id.rbyesradio);
+        radiology = findViewById(R.id.rgRadiology);
+        radiologyYes = findViewById(R.id.rbyesradio);
         radiologyYes.setChecked(true);
 
         homeVisit.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -148,7 +148,6 @@ public class LabNetworkActivity extends AppCompatActivity {
         });
 
 
-
         rlAddImage.setOnClickListener(v -> {
 
             //add image from camera and gallery
@@ -169,20 +168,20 @@ public class LabNetworkActivity extends AppCompatActivity {
         });
 
         btnAdd.setOnClickListener(v -> {
+            if (verification()) {
+                if (etOtp.getText().length() == 6) {
+                    if (!mVerificationId.equals("")) {
+                        verifyPhoneNumberWithCode(mVerificationId, etOtp.getText().toString());
 
-            if (etOtp.getText().length() == 6){
-                if (!mVerificationId.equals("")){
-                    verifyPhoneNumberWithCode(mVerificationId,etOtp.getText().toString());
+                    } else {
+                        Toast.makeText(activity, "Invalid OTP", Toast.LENGTH_SHORT).show();
+                    }
 
+
+                } else {
+                    Toast.makeText(activity, "Enter Valid OTP", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    Toast.makeText(activity, "Invalid OTP", Toast.LENGTH_SHORT).show();
-                }
 
-
-            }
-            else {
-                Toast.makeText(activity, "Enter OTP", Toast.LENGTH_SHORT).show();
             }
 
             //etmobile length 10 and email validation and spinner validation and address validation
@@ -205,8 +204,6 @@ public class LabNetworkActivity extends AppCompatActivity {
             if (permissionsToRequest.size() > 0)
                 requestPermissions((String[]) permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
         }
-
-
 
 
     }
@@ -255,15 +252,17 @@ public class LabNetworkActivity extends AppCompatActivity {
 
             }
         };
-        startPhoneNumberVerification("+91"+etMobile.getText().toString().trim());
+        startPhoneNumberVerification("+91" + etMobile.getText().toString().trim());
 
     }
+
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
         // [START verify_with_code]
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signInWithPhoneAuthCredential(credential);
         // [END verify_with_code]
     }
+
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -287,8 +286,6 @@ public class LabNetworkActivity extends AppCompatActivity {
                             }
 
 
-
-
                             // Update UI
                         } else {
                             // Sign in failed, display a message and update the UI
@@ -300,6 +297,7 @@ public class LabNetworkActivity extends AppCompatActivity {
                     }
                 });
     }
+
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
         PhoneAuthOptions options =
@@ -312,7 +310,6 @@ public class LabNetworkActivity extends AppCompatActivity {
         PhoneAuthProvider.verifyPhoneNumber(options);
         // [END start_phone_auth]
     }
-
 
 
     private void showImagePickDialog() {
@@ -505,5 +502,30 @@ public class LabNetworkActivity extends AppCompatActivity {
         super.onDestroy();
 
 
+    }
+
+    boolean verification() {
+        if (!etEmail.getText().toString().trim().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+            etEmail.setError("Enter Valid Email");
+            return false;
+
+        } else if (etCenterManager.getText().toString().isEmpty()) {
+            etCenterManager.setError("Enter Center Manager Name");
+            return false;
+
+        } else if (etCenterName.getText().toString().isEmpty()) {
+            etCenterName.setError("Enter Center Name");
+            return false;
+
+        }else if (etCenterOperationalHours.getText().toString().isEmpty()) {
+            etCenterOperationalHours.setError("Enter Center Operational Hours");
+            return false;
+
+        } else if (etCenterAddress.getText().toString().isEmpty()) {
+            etCenterAddress.setError("Enter Center Address");
+            return false;
+
+        }
+        return true;
     }
 }
