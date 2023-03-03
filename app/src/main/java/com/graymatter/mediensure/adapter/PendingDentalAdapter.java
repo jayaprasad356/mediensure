@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.graymatter.mediensure.EditDentalActivity;
 import com.graymatter.mediensure.R;
 import com.graymatter.mediensure.RadiologyEditActivity;
 import com.graymatter.mediensure.helper.Constant;
@@ -50,10 +51,14 @@ public class PendingDentalAdapter extends RecyclerView.Adapter<RecyclerView.View
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, RadiologyEditActivity.class);
+
+                Intent intent = new Intent(activity, EditDentalActivity.class);
                 intent.putExtra(Constant.ID,dentalData1.getId());
-                intent.putExtra(Constant.CENTER_NAME,dentalData1.getClinic_name());
+                intent.putExtra(Constant.USER_ID,dentalData1.getUser_id());
+                intent.putExtra(Constant.CLINIC_NAME,dentalData1.getClinic_name());
+                intent.putExtra(Constant.ORAL_XRAY,dentalData1.getOral_xray());
                 intent.putExtra(Constant.EMAIL,dentalData1.getEmail());
+                intent.putExtra(Constant.ADDRESS,dentalData1.getAddress());
                 intent.putExtra(Constant.MOBILE,dentalData1.getMobile());
                 intent.putExtra(Constant.DATETIME,dentalData1.getDatetime());
                 intent.putExtra(Constant.LATITUDE,dentalData1.getLatitude());

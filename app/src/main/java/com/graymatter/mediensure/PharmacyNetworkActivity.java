@@ -52,8 +52,8 @@ import java.util.concurrent.TimeUnit;
 
 public class PharmacyNetworkActivity extends AppCompatActivity {
 
-    EditText etAddress, etMobile, etEmail,etOtp,etFromTime,etToTime,etShopName,etName;
-    Button btnPickLocation, btnAdd,btnSendOTP;
+    EditText etAddress, etMobile, etEmail, etOtp, etFromTime, etToTime, etShopName, etName;
+    Button btnPickLocation, btnAdd, btnSendOTP;
 
     ImageButton ibBack;
 
@@ -85,8 +85,8 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
 
 
         etAddress = findViewById(R.id.etAddress);
-        etShopName=findViewById(R.id.etShopName);
-        etName=findViewById(R.id.etName);
+        etShopName = findViewById(R.id.etShopName);
+        etName = findViewById(R.id.etName);
         etMobile = findViewById(R.id.etMobile);
         etEmail = findViewById(R.id.etEmail);
         btnPickLocation = findViewById(R.id.btnPickLocation);
@@ -149,9 +149,6 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
         });
 
 
-
-
-
         btnSendOTP.setOnClickListener(v -> {
 
             showOtp();
@@ -163,8 +160,6 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-
 
 
         btnPickLocation.setOnClickListener(v -> {
@@ -182,28 +177,27 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
 
             if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
                 etEmail.setError("Enter Valid Email");
-            }  else if (etAddress.getText().toString().isEmpty()) {
+            } else if (etAddress.getText().toString().isEmpty()) {
                 etAddress.setError("Enter Address");
             } else if (etShopName.getText().toString().isEmpty()) {
                 etShopName.setError("Enter shop Name");
             } else if (etMobile.getText().toString().isEmpty()) {
                 etMobile.setError("Enter Mobile Number");
-            }else if (etFromTime.getText().toString().isEmpty()) {
+            } else if (etFromTime.getText().toString().isEmpty()) {
                 Toast.makeText(activity, "set From Time", Toast.LENGTH_SHORT).show();
-            }else if (etToTime.getText().toString().isEmpty()) {
+            } else if (etToTime.getText().toString().isEmpty()) {
                 Toast.makeText(activity, "set To Time", Toast.LENGTH_SHORT).show();
-            }else if (etName.getText().toString().isEmpty()) {
+            } else if (etName.getText().toString().isEmpty()) {
                 etName.setError("Enter Owner or Incharge Name");
-            }else if (etOtp.getText().toString().isEmpty()) {
+            } else if (etOtp.getText().toString().isEmpty()) {
                 etOtp.setError("Enter OTP");
-            }else {
+            } else {
                 //add to database
 
                 addPharmacy();
             }
 
             //etmobile length 10 and email validation and spinner validation and address validation
-
 
 
         });
@@ -225,11 +219,7 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
         }
 
 
-
-
-
     }
-
 
 
     private void showOtp() {
@@ -276,15 +266,17 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
 
             }
         };
-        startPhoneNumberVerification("+91"+etMobile.getText().toString().trim());
+        startPhoneNumberVerification("+91" + etMobile.getText().toString().trim());
 
     }
+
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
         // [START verify_with_code]
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signInWithPhoneAuthCredential(credential);
         // [END verify_with_code]
     }
+
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -293,10 +285,6 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-
-
-
-
 
 
                             // Update UI
@@ -310,6 +298,7 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
                     }
                 });
     }
+
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
         PhoneAuthOptions options =
@@ -326,13 +315,14 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
     private void addPharmacy() {
 
         Map<String, String> params = new HashMap<>();
+        params.put(Constant.SHOP_NAME, etShopName.getText().toString());
         params.put(Constant.USER_ID, session.getData(Constant.ID));
         params.put(Constant.LATITUDE, String.valueOf(latitude));
         params.put(Constant.LONGITUDE, String.valueOf(longitude));
         params.put(Constant.MOBILE, etMobile.getText().toString());
+        params.put(Constant.OPERATIONAL_HOURS, etFromTime.getText().toString()+etToTime.getText().toString());
         params.put(Constant.EMAIL, etEmail.getText().toString());
         params.put(Constant.ADDRESS, etAddress.getText().toString());
-
 
 
         ApiConfig.RequestToVolley((result, response) -> {

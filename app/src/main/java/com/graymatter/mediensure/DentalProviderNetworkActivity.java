@@ -247,7 +247,7 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
                 //     user action.
                 Log.d(TAG, "onVerificationCompleted:" + credential);
 
-                signInWithPhoneAuthCredential(credential);
+               // signInWithPhoneAuthCredential(credential);
             }
 
             @Override
@@ -336,6 +336,8 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
     private void addDentalProvider() {
         Map<String, String> params = new HashMap<>();
         params.put(Constant.USER_ID, session.getData(Constant.ID));
+        params.put(Constant.CLINIC_NAME, etName.getText().toString());
+
         params.put(Constant.LATITUDE, String.valueOf(latitude));
         params.put(Constant.LONGITUDE, String.valueOf(longitude));
         params.put(Constant.MOBILE, etMobile.getText().toString());

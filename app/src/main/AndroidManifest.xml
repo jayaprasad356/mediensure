@@ -20,6 +20,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".EditDentalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditLabActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditPharmacyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditOPDActivity"
+            android:exported="false" />
+        <activity
             android:name=".RadiologyEditActivity"
             android:exported="false" />
         <activity

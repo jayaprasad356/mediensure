@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.graymatter.mediensure.EditLabActivity;
 import com.graymatter.mediensure.R;
 import com.graymatter.mediensure.RadiologyEditActivity;
 import com.graymatter.mediensure.helper.Constant;
@@ -50,7 +51,7 @@ public class PendingLabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, RadiologyEditActivity.class);
+                Intent intent = new Intent(activity, EditLabActivity.class);
                 intent.putExtra(Constant.ID,labData1.getId());
                 intent.putExtra(Constant.CENTER_NAME,labData1.center_name);
                 intent.putExtra(Constant.EMAIL,labData1.getEmail());
@@ -58,6 +59,8 @@ public class PendingLabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 intent.putExtra(Constant.MANAGER_NAME,labData1.getManager_name());
                 intent.putExtra(Constant.CENTER_ADDRESS,labData1.getCenter_address());
                 intent.putExtra(Constant.OPERATIONAL_HOURS,labData1.getOperational_hours());
+                intent.putExtra(Constant.RADIOLOGY_TEST,labData1.getRadiology_test());
+                intent.putExtra(Constant.HOME_VISIT,labData1.getHome_visit());
                 intent.putExtra(Constant.IMAGE,labData1.getImage());
                 intent.putExtra(Constant.DATETIME,labData1.getDatetime());
                 intent.putExtra(Constant.LATITUDE,labData1.getLatitude());

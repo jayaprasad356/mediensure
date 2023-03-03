@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.graymatter.mediensure.EditOPDActivity;
 import com.graymatter.mediensure.R;
 import com.graymatter.mediensure.RadiologyEditActivity;
 import com.graymatter.mediensure.helper.Constant;
@@ -50,16 +51,20 @@ public class PendingOPDAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, RadiologyEditActivity.class);
+
+                Intent intent = new Intent(activity, EditOPDActivity.class);
                 intent.putExtra(Constant.ID,opdata.getId());
-                intent.putExtra(Constant.CENTER_NAME,opdata.getName());
+                intent.putExtra(Constant.USER_ID,opdata.getUser_id());
+                intent.putExtra(Constant.NAME,opdata.getName());
                 intent.putExtra(Constant.EMAIL,opdata.getEmail());
                 intent.putExtra(Constant.MOBILE,opdata.getMobile());
-                intent.putExtra(Constant.DATETIME,opdata.getDatetime());
+                intent.putExtra(Constant.ADDRESS,opdata.getAddress());
                 intent.putExtra(Constant.LATITUDE,opdata.getLatitude());
                 intent.putExtra(Constant.LONGITUDE,opdata.getLongitude());
-                intent.putExtra(Constant.STATUS,opdata.getStatus());
+                intent.putExtra(Constant.DATETIME,opdata.getDatetime());
                 intent.putExtra(Constant.REMARKS,opdata.getRemarks());
+                intent.putExtra(Constant.STATUS,opdata.getStatus());
+
                 activity.startActivity(intent);
             }
         });

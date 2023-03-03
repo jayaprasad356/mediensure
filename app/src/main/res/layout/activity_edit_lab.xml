@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RadiologyNetwork">
+    tools:context=".EditLabActivity">
+
 
     <RelativeLayout
         android:padding="@dimen/_10sdp"
@@ -26,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:text="Radiology Network Edit"
+            android:text="Edit Lab Network"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -53,6 +54,8 @@
 
 
 
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_4sdp"
-                    android:text="Shop Name"
+                    android:text="Center Name"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />
@@ -81,7 +84,7 @@
 
 
                     <EditText
-                        android:id="@+id/etShopName"
+                        android:id="@+id/etCenterName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/et_bg1"
@@ -106,146 +109,88 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_4sdp"
-                    android:text="Add Owner / Incharge Name"
+                    android:text="Home Visit"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />
 
 
-                <EditText
-                    android:id="@+id/etName"
+                <RadioGroup
+                    android:id="@+id/rgHomeVisit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/et_bg1"
-                    android:hint=""
-                    android:padding="@dimen/_14sdp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey"
-                    android:textSize="@dimen/_10sdp" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:text="Home delivery"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/et_bg1"
+                    android:orientation="horizontal"
                     >
 
-
-                    <Spinner
-                        android:id="@+id/spinnerKM"
-                        style="@style/SpinnerTheme"
-                        android:layout_width="fill_parent"
+                    <RadioButton
+                        android:id="@+id/rbYes"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawSelectorOnTop="true"
-                        android:entries="@array/array_spinnerkm"
-                        android:padding="@dimen/_20sdp" />
+                        android:text="yes"
+                        />
 
-                </RelativeLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:text="Shop Address"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-
-
-                <EditText
-                    android:id="@+id/etAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/et_bg1"
-                    android:hint=""
-                    android:padding="@dimen/_14sdp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey"
-                    android:textSize="@dimen/_10sdp" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:text="Add Operational hours"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="2"
-                    >
-
-
-
-                    <EditText
-                        android:editable="false"
-                        android:layout_weight="1"
-                        android:id="@+id/etFromTime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/et_bg1"
-                        android:hint="From"
-                        android:padding="@dimen/_14sdp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/grey"
-                        android:textSize="@dimen/_10sdp" />
                     <Space
                         android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"/>
-                    <EditText
-                        android:editable="false"
-                        android:layout_weight="1"
-                        android:id="@+id/etToTime"
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/et_bg1"
-                        android:hint="To"
-                        android:padding="@dimen/_14sdp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/grey"
-                        android:textSize="@dimen/_10sdp" />
+                        />
+
+                    <RadioButton
+                        android:id="@+id/rbNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        />
+
+                </RadioGroup>
 
 
-                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:text="Radiology test available"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+
+                <RadioGroup
+                    android:id="@+id/rgRadiology"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/rbyesradio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="yes" />
+
+                    <Space
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/rbNoRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        />
+
+                </RadioGroup>
+
+
 
             </LinearLayout>
             <LinearLayout
@@ -277,7 +222,6 @@
                     android:textSize="@dimen/_10sdp" />
 
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -312,7 +256,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/et_bg1"
                         android:hint=""
-                        android:editable="false"
                         android:padding="@dimen/_14sdp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
@@ -328,6 +271,8 @@
 
 
 
+
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -336,8 +281,84 @@
                 android:orientation="vertical">
 
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:text="Center Manager/Head "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
 
 
+                <EditText
+                    android:id="@+id/etCenterManager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_bg1"
+                    android:hint=""
+                    android:padding="@dimen/_14sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/_10sdp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:text="Center Address"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+
+                <EditText
+                    android:id="@+id/etCenterAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_bg1"
+                    android:hint=""
+                    android:padding="@dimen/_14sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/_10sdp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:text="Center Operational Hours"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+
+                <EditText
+                    android:id="@+id/etCenterOperationalHours"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_bg1"
+                    android:hint=""
+                    android:padding="@dimen/_14sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/_10sdp" />
 
             </LinearLayout>
 
@@ -380,10 +401,9 @@
                 android:layout_height="@dimen/_80sdp" />
 
 
-
             <Button
                 android:id="@+id/btnPickLocation"
-                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -402,7 +422,7 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Update"
+                android:text="Add"
                 android:padding="@dimen/_10sdp"
                 android:backgroundTint="@color/colorPrimary"
                 />
@@ -419,5 +439,6 @@
 
     </ScrollView>
 
-
 </RelativeLayout>
+
+

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.graymatter.mediensure.EditPharmacyActivity;
 import com.graymatter.mediensure.R;
 import com.graymatter.mediensure.RadiologyEditActivity;
 import com.graymatter.mediensure.helper.Constant;
@@ -41,24 +42,27 @@ public class PendingPharmacyAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holderParent, int position) {
         session = new Session(activity);
         final ExploreItemHolder holder = (ExploreItemHolder) holderParent;
-        final PharmacyData radiology = pharmacyDataArrayList.get(position);
+        final PharmacyData pharmacyData = pharmacyDataArrayList.get(position);
 
-        holder.tvName.setText(radiology.getShop_name());
-        holder.tvMobile.setText(radiology.getMobile());
-        holder.tvDateandTime.setText(radiology.getDatetime());
+        holder.tvName.setText(pharmacyData.getShop_name());
+        holder.tvMobile.setText(pharmacyData.getMobile());
+        holder.tvDateandTime.setText(pharmacyData.getDatetime());
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, RadiologyEditActivity.class);
-                intent.putExtra(Constant.ID,radiology.getId());
-                intent.putExtra(Constant.CENTER_NAME,radiology.getShop_name());
-                intent.putExtra(Constant.EMAIL,radiology.getEmail());
-                intent.putExtra(Constant.MOBILE,radiology.getMobile());
-                intent.putExtra(Constant.DATETIME,radiology.getDatetime());
-                intent.putExtra(Constant.LATITUDE,radiology.getLatitude());
-                intent.putExtra(Constant.LONGITUDE,radiology.getLongitude());
-                intent.putExtra(Constant.STATUS,radiology.getStatus());
-                intent.putExtra(Constant.REMARKS,radiology.getRemarks());
+
+                Intent intent = new Intent(activity, EditPharmacyActivity.class);
+                intent.putExtra(Constant.ID,pharmacyData.getId());
+                intent.putExtra(Constant.USER_ID,pharmacyData.getUser_id());
+                intent.putExtra(Constant.SHOP_NAME,pharmacyData.getShop_name());
+                intent.putExtra(Constant.ADDRESS,pharmacyData.getAddress());
+                intent.putExtra(Constant.EMAIL,pharmacyData.getEmail());
+                intent.putExtra(Constant.MOBILE,pharmacyData.getMobile());
+                intent.putExtra(Constant.DATETIME,pharmacyData.getDatetime());
+                intent.putExtra(Constant.LATITUDE,pharmacyData.getLatitude());
+                intent.putExtra(Constant.LONGITUDE,pharmacyData.getLongitude());
+                intent.putExtra(Constant.STATUS,pharmacyData.getStatus());
+                intent.putExtra(Constant.REMARKS,pharmacyData.getRemarks());
                activity.startActivity(intent);
             }
         });

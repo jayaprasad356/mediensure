@@ -3,16 +3,28 @@ package com.graymatter.mediensure;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.graymatter.mediensure.helper.ApiConfig;
 import com.graymatter.mediensure.helper.Constant;
 import com.graymatter.mediensure.helper.Session;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RadiologyEditActivity extends AppCompatActivity {
     EditText etName,etShopName,etAddress,etFromTime,etToTime,etEmail,etMobile,etOtp;
@@ -24,7 +36,7 @@ public class RadiologyEditActivity extends AppCompatActivity {
     Activity activity;
     Session session;
     RelativeLayout rlAddImage;
-    public String id;
+    public String inventory_id;
     public String center_name;
     public String email;
     public String mobile;
@@ -54,11 +66,13 @@ public class RadiologyEditActivity extends AppCompatActivity {
         etToTime = findViewById(R.id.etToTime);
         etEmail = findViewById(R.id.etEmail);
         etMobile = findViewById(R.id.etMobile);
-        etOtp = findViewById(R.id.etOtp);
         spinner = findViewById(R.id.spinnerKM);
+        btnPickLocation=findViewById(R.id.btnPickLocation);
+        imageView = findViewById(R.id.imageView);
+        btnAdd=findViewById(R.id.btnAdd);
 
 
-        id=getIntent().getStringExtra(Constant.ID);
+        inventory_id =getIntent().getStringExtra(Constant.ID);
         center_name=getIntent().getStringExtra(Constant.CENTER_NAME);
         email=getIntent().getStringExtra(Constant.EMAIL);
         mobile=getIntent().getStringExtra(Constant.MOBILE);
@@ -80,16 +94,61 @@ public class RadiologyEditActivity extends AppCompatActivity {
         etName.setText(manager_name);
         etAddress.setText(center_address);
         etMobile.setText(mobile);
+        etMobile.setEnabled(false);
         etEmail.setText(email);
         etFromTime.setText(startTime);
         etToTime.setText(endTime);
-
-
-
-
+        btnPickLocation.setEnabled(false);
+        btnPickLocation.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_circle_24, 0);
 
         rlAddImage = findViewById(R.id.rlAddImage);
         imageView = findViewById(R.id.imageView);
+btnAdd.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        updateRadiology();
+    }
+});
+    }
+    private void updateRadiology() {
 
+
+
+        Map<String, String> params = new HashMap<>();
+        params.put(Constant.USER_ID, session.getData(Constant.ID));
+        params.put(Constant.INVENTORY_ID, inventory_id);
+        params.put(Constant.LATITUDE, String.valueOf(latitude));
+        params.put(Constant.LONGITUDE, String.valueOf(longitude));
+        params.put(Constant.MOBILE, etMobile.getText().toString());
+        params.put(Constant.EMAIL, etEmail.getText().toString());
+        params.put(Constant.CENTER_ADDRESS, etAddress.getText().toString());
+        params.put(Constant.SHOP_NAME, spinner.getSelectedItem().toString());
+        params.put(Constant.MANAGER_NAME, etName.getText().toString());
+        params.put(Constant.CENTER_NAME, etShopName.getText().toString());
+        params.put(Constant.OPERATIONAL_HOURS, etFromTime.getText().toString() + " - " + etToTime.getText().toString());
+        params.put(Constant.IMAGE, image);
+
+
+
+        ApiConfig.RequestToVolley((result, response) -> {
+            Log.d("LOGIN_RES", response);
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        Toast.makeText(activity, jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+                        JSONArray jsonArray = jsonObject.getJSONArray(Constant.DATA);
+
+
+                        startActivity(new Intent(activity, TabActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(activity, jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, activity, Constant.UPDATE_RADIOLOGY_NETWORK, params, true);
     }
 }

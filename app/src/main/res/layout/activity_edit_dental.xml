@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RadiologyNetwork">
+    tools:context=".EditDentalActivity">
+
 
     <RelativeLayout
         android:padding="@dimen/_10sdp"
@@ -26,14 +27,13 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:text="Radiology Network Edit"
+            android:text="Edit Dental Provider Network"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold" />
 
 
     </RelativeLayout>
-
 
 
 
@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_4sdp"
-                    android:text="Shop Name"
+                    android:text="Dental Name"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />
@@ -79,13 +79,12 @@
 
 
 
-
                     <EditText
-                        android:id="@+id/etShopName"
+                        android:id="@+id/etName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/et_bg1"
-                        android:hint=""
+                        android:hint="Dental"
                         android:padding="@dimen/_14sdp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
@@ -113,7 +112,7 @@
 
 
                 <EditText
-                    android:id="@+id/etName"
+                    android:id="@+id/etIncharge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/et_bg1"
@@ -124,43 +123,6 @@
                     android:textSize="@dimen/_10sdp" />
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:text="Home delivery"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/et_bg1"
-                    >
-
-
-                    <Spinner
-                        android:id="@+id/spinnerKM"
-                        style="@style/SpinnerTheme"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:drawSelectorOnTop="true"
-                        android:entries="@array/array_spinnerkm"
-                        android:padding="@dimen/_20sdp" />
-
-                </RelativeLayout>
-
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -173,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_4sdp"
-                    android:text="Shop Address"
+                    android:text="Clinic Address"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />
@@ -248,6 +210,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -277,6 +240,55 @@
                     android:textSize="@dimen/_10sdp" />
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:text="Availability of Oral Xray facility"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+
+                <RadioGroup
+                    android:id="@+id/oralXrayRG"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/rbYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="yes"
+                        />
+
+                    <Space
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/rbNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        />
+
+                </RadioGroup>
+
+
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -312,7 +324,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/et_bg1"
                         android:hint=""
-                        android:editable="false"
                         android:padding="@dimen/_14sdp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
@@ -328,56 +339,11 @@
 
 
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical">
-
-
-
-
 
             </LinearLayout>
 
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add Image"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_marginTop="30dp"
-                android:textSize="@dimen/_12sdp"/>
-
-
-            <RelativeLayout
-                android:id="@+id/rlAddImage"
-                android:layout_width="wrap_content"
-                android:padding="@dimen/_5sdp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/et_bg"
-
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No File Chosen"
-                    android:textColor="@color/black"
-                    />
-
-
-            </RelativeLayout>
-
-            <ImageView
-                android:layout_marginTop="@dimen/_10sdp"
-                android:visibility="gone"
-                android:id="@+id/imageView"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_80sdp" />
 
 
 
@@ -402,7 +368,7 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Update"
+                android:text="Add"
                 android:padding="@dimen/_10sdp"
                 android:backgroundTint="@color/colorPrimary"
                 />

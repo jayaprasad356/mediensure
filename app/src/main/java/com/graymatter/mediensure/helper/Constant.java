@@ -9,10 +9,20 @@ public class Constant {
     public static final String LOGIN_URL = BaseUrl + "login.php";
     public static final String SIGN_UP = BaseUrl + "signup.php";
     public static final String ADD_OPD_NETWORK = BaseUrl + "add-opd_network.php";
+    public static final String UPDATE_OPD_NETWORK = BaseUrl + "update-opd_network.php";
+
     public static final String ADD_LAB_NETWORK = BaseUrl + "add-lab_network.php";
+    public static final String UPDATE_LAB_NETWORK = BaseUrl + "update-lab_network.php";
+
     public static final String ADD_DENTAL_NETWORK = BaseUrl + "add-dental_network.php";
+    public static final String UPDATE_DENTAL_NETWORK = BaseUrl + "update-dental_network.php";
+
     public static final String ADD_PHARMACY_NETWORK = BaseUrl + "add-pharmacy_network.php";
+    public static final String UPDATE_PHARMACY_NETWORK = BaseUrl + "update-pharmacy_network.php";
+
     public static final String ADD_RADIOLOGY_NETWORK = BaseUrl + "add-radiology_network.php";
+    public static final String UPDATE_RADIOLOGY_NETWORK = BaseUrl + "update-radiology_network.php";
+
     public static final String USERDETAILS = BaseUrl + "userdetails.php";
     public static final String UPDATE_PROFILE = BaseUrl + "update_profile.php";
     public static final String RADIOLOGY_NETWORK_LIST = BaseUrl + "radiology_network-list.php";
@@ -55,6 +65,8 @@ public class Constant {
 
     public static final String CLINIC_NAME = "clinic_name";
     public static final String TOTAL_INVENTORIES = "total_inventories";
+    public static final String INVENTORY_ID = "inventory_id";
+
     public static final String TODAY_INVENTORIES = "today_inventories";
     public static final String LAB_SERVICE = "lab_service";
     public static final String RADIOLOGY_SERVICE = "radiology_service";

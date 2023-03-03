@@ -223,7 +223,7 @@ public class LabNetworkActivity extends AppCompatActivity {
                 //     user action.
                 Log.d(TAG, "onVerificationCompleted:" + credential);
 
-                signInWithPhoneAuthCredential(credential);
+               // signInWithPhoneAuthCredential(credential);
             }
 
             @Override
@@ -370,6 +370,8 @@ public class LabNetworkActivity extends AppCompatActivity {
     private void addlabnetwork() {
         Map<String, String> params = new HashMap<>();
         params.put(Constant.USER_ID, session.getData(Constant.ID));
+        params.put(Constant.CENTER_NAME, etCenterName.getText().toString());
+
         params.put(Constant.LATITUDE, String.valueOf(latitude));
         params.put(Constant.LONGITUDE, String.valueOf(longitude));
         params.put(Constant.MOBILE, etMobile.getText().toString());
@@ -410,7 +412,6 @@ public class LabNetworkActivity extends AppCompatActivity {
 
 
         if (locationTrack.canGetLocation()) {
-
 
             longitude = locationTrack.getLongitude();
             latitude = locationTrack.getLatitude();

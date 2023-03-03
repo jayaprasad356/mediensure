@@ -6,6 +6,15 @@ public class PharmacyData {
     public String shop_name;
     public String address;
     public String email;
+    public String operational_hours;
+
+    public String getOperational_hours() {
+        return operational_hours;
+    }
+
+    public void setOperational_hours(String operational_hours) {
+        this.operational_hours = operational_hours;
+    }
 
     public String getId() {
         return id;
