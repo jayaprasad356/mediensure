@@ -272,7 +272,6 @@ public class LabNetworkActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
 
-
                             if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
                                 etEmail.setError("Enter Valid Email");
                             } else if (etCenterManager.getText().toString().isEmpty()) {
@@ -506,26 +505,36 @@ public class LabNetworkActivity extends AppCompatActivity {
     }
 
     boolean verification() {
-        if (!etEmail.getText().toString().trim().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
-            etEmail.setError("Enter Valid Email");
-            return false;
-
-        } else if (etCenterManager.getText().toString().isEmpty()) {
-            etCenterManager.setError("Enter Center Manager Name");
-            return false;
-
-        } else if (etCenterName.getText().toString().isEmpty()) {
+        if (etCenterName.getText().toString().isEmpty()) {
             etCenterName.setError("Enter Center Name");
             return false;
 
-        }else if (etCenterOperationalHours.getText().toString().isEmpty()) {
-            etCenterOperationalHours.setError("Enter Center Operational Hours");
+        } else if (!etEmail.getText().toString().trim().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+            etEmail.setError("Enter Valid Email");
             return false;
 
-        } else if (etCenterAddress.getText().toString().isEmpty()) {
+        } else if (etMobile.getText().toString().isEmpty()) {
+            etMobile.setError("Enter Mobile Number");
+            return false;
+
+        }else if (etOtp.getText().toString().isEmpty()) {
+            etOtp.setError("Enter valid OTP");
+            return false;
+
+        }else if (etCenterManager.getText().toString().isEmpty()) {
+            etCenterManager.setError("Enter Center Manager Name");
+            return false;
+
+        }else if (etCenterAddress.getText().toString().isEmpty()) {
             etCenterAddress.setError("Enter Center Address");
             return false;
 
+        } else if (etCenterOperationalHours.getText().toString().isEmpty()) {
+            etCenterOperationalHours.setError("Enter Center Operational Hours");
+            return false;
+
+        } else if (btnPickLocation.isEnabled()) {
+            Toast.makeText(activity, "Please Pick Location", Toast.LENGTH_SHORT).show();
         }
         return true;
     }

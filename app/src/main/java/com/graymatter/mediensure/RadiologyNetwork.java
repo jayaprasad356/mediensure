@@ -195,56 +195,34 @@ public class RadiologyNetwork extends AppCompatActivity {
         btnAdd.setOnClickListener(v -> {
 
 
-            if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
-                etEmail.setError("Enter Valid Email");
+            if(etShopName.getText().toString().isEmpty()){
+                etShopName.setError("Enter Shop Name");
             }
             else if(etName.getText().toString().isEmpty()){
                 etName.setError("Enter Owner or Incharge Name");
-            }
-            else if(etShopName.getText().toString().isEmpty()){
-                etShopName.setError("Enter Shop Name");
-            }
-
-            else if(etAddress.getText().toString().isEmpty()){
+            }else if(etAddress.getText().toString().isEmpty()){
                 etAddress.setError("Enter Address");
-            }
-
-            else if(etMobile.getText().toString().length() != 10){
-                etMobile.setError("Enter Valid Mobile Number");
-            }
-
-            else if(etFromTime.getText().toString().isEmpty()){
+            } else if(etFromTime.getText().toString().isEmpty()){
                 etFromTime.setError("Enter From Time");
             }
-
             else if(etToTime.getText().toString().isEmpty()){
                 etToTime.setError("Enter To Time");
             }
-
-
-
-
-            else if(etOtp.getText().toString().isEmpty()){
-                etOtp.setError("Enter OTP");
+            else if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+                etEmail.setError("Enter Valid Email");
             }
-
+            else if(etMobile.getText().toString().length() != 10){
+                etMobile.setError("Enter Valid Mobile Number");
+            }
             else if(etOtp.getText().toString().length() != 6){
                 etOtp.setError("Enter Valid OTP");
             }
-
             else if (btnPickLocation.isEnabled()) {
-
                 Toast.makeText(activity, "Please Pick Location", Toast.LENGTH_SHORT).show();
-
             }
-
             else {
                 addRadiology();
             }
-
-
-
-
 
         });
 

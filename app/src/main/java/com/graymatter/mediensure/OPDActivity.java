@@ -143,34 +143,25 @@ public class OPDActivity extends AppCompatActivity {
 
 
         btnAdd.setOnClickListener(v -> {
-
-
-
-            if (!etemail.getText().toString().contains("@")) {
-
-                etemail.setError("Enter Valid Email");
-                etemail.requestFocus();
-
-            } else if (etaddress.getText().toString().isEmpty()) {
-
+            if (etaddress.getText().toString().isEmpty()) {
                 etaddress.setError("Enter Valid Address");
                 etaddress.requestFocus();
-
-            } else if (spinner.getSelectedItem().toString().equals("Select")) {
-
-                Toast.makeText(activity, "Select Valid City", Toast.LENGTH_SHORT).show();
-
-            }
-
-            // check the location is enable or not
-            else if (btnPickLocation.isEnabled()) {
-
-                Toast.makeText(activity, "Please Pick Location", Toast.LENGTH_SHORT).show();
-
-            } else if (etmobile.getText().toString().isEmpty()) {
+            } else if (!etemail.getText().toString().contains("@")) {
+                etemail.setError("Enter Valid Email");
+                etemail.requestFocus();
+            }else if (etmobile.getText().toString().isEmpty()) {
                 Toast.makeText(activity, "Please Enter Mobile Number", Toast.LENGTH_SHORT).show();
 
-            } else {
+            }else if (etOtp.getText().toString().isEmpty()) {
+                Toast.makeText(activity, "Please Enter Otp", Toast.LENGTH_SHORT).show();
+
+            } else if (spinner.getSelectedItem().toString().equals("Select")) {
+                Toast.makeText(activity, "Select Valid City", Toast.LENGTH_SHORT).show();
+            }
+            // check the location is enable or not
+            else if (btnPickLocation.isEnabled()) {
+                Toast.makeText(activity, "Please Pick Location", Toast.LENGTH_SHORT).show();
+            }  else {
 
                 //add data to database
 

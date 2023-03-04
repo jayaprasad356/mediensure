@@ -175,22 +175,24 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(v -> {
 
 
-            if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
-                etEmail.setError("Enter Valid Email");
-            } else if (etAddress.getText().toString().isEmpty()) {
-                etAddress.setError("Enter Address");
-            } else if (etShopName.getText().toString().isEmpty()) {
+            if (etShopName.getText().toString().isEmpty()) {
                 etShopName.setError("Enter shop Name");
-            } else if (etMobile.getText().toString().isEmpty()) {
-                etMobile.setError("Enter Mobile Number");
-            } else if (etFromTime.getText().toString().isEmpty()) {
+            } else if (etName.getText().toString().isEmpty()) {
+                etName.setError("Enter Owner or Incharge Name");
+            }  else if (etAddress.getText().toString().isEmpty()) {
+                etAddress.setError("Enter Address");
+            }else if (etFromTime.getText().toString().isEmpty()) {
                 Toast.makeText(activity, "set From Time", Toast.LENGTH_SHORT).show();
             } else if (etToTime.getText().toString().isEmpty()) {
                 Toast.makeText(activity, "set To Time", Toast.LENGTH_SHORT).show();
-            } else if (etName.getText().toString().isEmpty()) {
-                etName.setError("Enter Owner or Incharge Name");
+            } else if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+                etEmail.setError("Enter Valid Email");
+            } else if (etMobile.getText().toString().isEmpty()) {
+                etMobile.setError("Enter Mobile Number");
             } else if (etOtp.getText().toString().isEmpty()) {
                 etOtp.setError("Enter OTP");
+            }  else if (btnPickLocation.isEnabled()) {
+                Toast.makeText(activity, "Please Pick Location", Toast.LENGTH_SHORT).show();
             } else {
                 //add to database
 
@@ -320,7 +322,7 @@ public class PharmacyNetworkActivity extends AppCompatActivity {
         params.put(Constant.LATITUDE, String.valueOf(latitude));
         params.put(Constant.LONGITUDE, String.valueOf(longitude));
         params.put(Constant.MOBILE, etMobile.getText().toString());
-        params.put(Constant.OPERATIONAL_HOURS, etFromTime.getText().toString()+etToTime.getText().toString());
+        params.put(Constant.OPERATIONAL_HOURS, etFromTime.getText().toString() + etToTime.getText().toString());
         params.put(Constant.EMAIL, etEmail.getText().toString());
         params.put(Constant.ADDRESS, etAddress.getText().toString());
 

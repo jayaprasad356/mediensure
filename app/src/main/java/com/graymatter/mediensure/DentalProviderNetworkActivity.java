@@ -118,54 +118,64 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
             }
         });
 
-        etFromTime.setOnClickListener(new View.OnClickListener() {
+        etFromTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                // Create a Calendar instance to get the current time
-                final Calendar calendar = Calendar.getInstance();
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    // Create a Calendar instance to get the current time
+                    final Calendar calendar = Calendar.getInstance();
 
-                // Create a TimePickerDialog and set the current time as the default value
-                TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                // Set the selected time to the EditText
-                                etFromTime.setText(formatTime(hourOfDay, minute));
-                            }
-                        },
-                        calendar.get(Calendar.HOUR_OF_DAY),
-                        calendar.get(Calendar.MINUTE),
-                        false); // Set is24HourView to false
+                    // Create a TimePickerDialog and set the current time as the default value
+                    TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
+                            new TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                    // Set the selected time to the EditText
+                                    etFromTime.setText(formatTime(hourOfDay, minute));
+                                }
+                            },
+                            calendar.get(Calendar.HOUR_OF_DAY),
+                            calendar.get(Calendar.MINUTE),
+                            false); // Set is24HourView to false
 
-                // Show the TimePickerDialog
-                timePickerDialog.show();
+                    // Show the TimePickerDialog
+                    timePickerDialog.show();
+
+                    // Clear the focus on the EditText to prevent multiple calls
+                    view.clearFocus();
+                }
             }
         });
-        etToTime.setOnClickListener(new View.OnClickListener() {
+
+        etToTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    // Create a Calendar instance to get the current time
+                    final Calendar calendar = Calendar.getInstance();
 
-                // Create a Calendar instance to get the current time
-                final Calendar calendar = Calendar.getInstance();
+                    // Create a TimePickerDialog and set the current time as the default value
+                    TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
+                            new TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                    // Set the selected time to the EditText
+                                    etToTime.setText(formatTime(hourOfDay, minute));
+                                }
+                            },
+                            calendar.get(Calendar.HOUR_OF_DAY),
+                            calendar.get(Calendar.MINUTE),
+                            false); // Set is24HourView to false
 
-                // Create a TimePickerDialog and set the current time as the default value
-                TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                // Set the selected time to the EditText
-                                etToTime.setText(formatTime(hourOfDay, minute));
-                            }
-                        },
-                        calendar.get(Calendar.HOUR_OF_DAY),
-                        calendar.get(Calendar.MINUTE),
-                        false); // Set is24HourView to false
+                    // Show the TimePickerDialog
+                    timePickerDialog.show();
 
-                // Show the TimePickerDialog
-                timePickerDialog.show();
-
+                    // Clear the focus on the EditText to prevent multiple calls
+                    view.clearFocus();
+                }
             }
         });
+
 
 
         btnSendOTP.setOnClickListener(v -> {
@@ -478,20 +488,23 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
     }
 
     boolean verification() {
-        if (!etEmail.getText().toString().contains("@")) {
-            etEmail.setError("Enter Valid Email");
-            return false;
-        } else if (etAddress.getText().toString().isEmpty()) {
-            etAddress.setError("Enter Address");
-            return false;
-        } else if (etName.getText().toString().isEmpty()) {
+        if (etName.getText().toString().isEmpty()) {
             etName.setError("Enter Dental Name");
             return false;
-        }else if (etFromTime.getText().toString().isEmpty()) {
+        }else if (etIncharege.getText().toString().isEmpty()) {
+            etIncharege.setError("Enter Owner or incharge Name");
+            return false;
+        }else if (etAddress.getText().toString().isEmpty()) {
+            etAddress.setError("Enter Address");
+            return false;
+        } else if (etFromTime.getText().toString().isEmpty()) {
             etFromTime.setError("Enter From Time");
             return false;
         }else if (etToTime.getText().toString().isEmpty()) {
             etToTime.setError("Enter To Time");
+            return false;
+        } else if (!etEmail.getText().toString().contains("@")) {
+            etEmail.setError("Enter Valid Email");
             return false;
         }else if (etMobile.getText().toString().isEmpty()) {
             etMobile.setError("Enter Mobile Number");
@@ -499,9 +512,8 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
         }else if (etOtp.getText().toString().isEmpty()) {
             etOtp.setError("Enter Otp");
             return false;
-        }else if (etIncharege.getText().toString().isEmpty()) {
-            etIncharege.setError("Enter Owner or incharge Name");
-            return false;
+        } else if (btnPickLocation.isEnabled()) {
+            Toast.makeText(activity, "Please Pick Location", Toast.LENGTH_SHORT).show();
         }
         return true;
     }
