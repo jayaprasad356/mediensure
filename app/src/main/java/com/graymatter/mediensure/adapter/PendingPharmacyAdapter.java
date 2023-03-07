@@ -47,6 +47,9 @@ public class PendingPharmacyAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         holder.tvName.setText(pharmacyData.getShop_name());
         holder.tvMobile.setText(pharmacyData.getMobile());
         holder.tvDateandTime.setText(pharmacyData.getDatetime());
+        if(pharmacyData.getStatus().equals("1")){
+            holder.btnEdit.setVisibility(View.GONE);
+        }
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

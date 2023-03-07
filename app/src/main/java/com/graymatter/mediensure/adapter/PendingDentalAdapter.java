@@ -48,6 +48,9 @@ public class PendingDentalAdapter extends RecyclerView.Adapter<RecyclerView.View
         holder.tvName.setText(dentalData1.getClinic_name());
         holder.tvMobile.setText(dentalData1.getMobile());
         holder.tvDateandTime.setText(dentalData1.getDatetime());
+        if(dentalData1.getStatus().equals("1")){
+            holder.btnEdit.setVisibility(View.GONE);
+        }
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

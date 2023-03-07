@@ -48,6 +48,9 @@ public class PendingLabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.tvName.setText(labData1.getCenter_name());
         holder.tvMobile.setText(labData1.getMobile());
         holder.tvDateandTime.setText(labData1.getDatetime());
+        if(labData1.getStatus().equals("1")){
+            holder.btnEdit.setVisibility(View.GONE);
+        }
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

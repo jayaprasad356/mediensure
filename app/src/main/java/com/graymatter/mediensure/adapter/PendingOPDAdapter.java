@@ -48,6 +48,9 @@ public class PendingOPDAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.tvName.setText(opdata.getName());
         holder.tvMobile.setText(opdata.getMobile());
         holder.tvDateandTime.setText(opdata.getDatetime());
+        if(opdata.getStatus().equals("1")){
+            holder.btnEdit.setVisibility(View.GONE);
+        }
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

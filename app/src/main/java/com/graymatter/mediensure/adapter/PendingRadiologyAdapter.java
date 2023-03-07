@@ -46,6 +46,9 @@ public class PendingRadiologyAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.tvName.setText(radiology.getCenter_name());
         holder.tvMobile.setText(radiology.getMobile());
         holder.tvDateandTime.setText(radiology.getDatetime());
+        if(radiology.getStatus().equals("1")){
+            holder.btnEdit.setVisibility(View.GONE);
+        }
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
