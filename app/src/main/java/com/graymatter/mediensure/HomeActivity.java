@@ -28,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
 
     MaterialCardView cvProfile,cvMenu;
     Button btnAddNewInventory,btnEditExistingInvent;
-    TextView tvName,tvTotalInventory,tvTodayInventory;
+    TextView tvName,tvTotalInventory,tvTodayInventory,tvNotVerified;
     Activity activity;
     Session session;
 
@@ -49,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
         tvName = findViewById(R.id.tvName);
         tvTotalInventory = findViewById(R.id.tvTotalInventory);
         tvTodayInventory = findViewById(R.id.tvTodayInventory);
+        tvNotVerified = findViewById(R.id.tvNotVerified);
 
 
         tvName.setText("Hi, "+session.getData(Constant.NAME));
@@ -86,7 +87,9 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-                        tvTodayInventory.setText("Today - "+jsonObject.getString(Constant.TODAY_INVENTORIES));
+                        tvTodayInventory.setText("Verified - "+jsonObject.getInt(Constant.VERIFIED_USERS));
+                        tvNotVerified.setText("Not Verified - "+jsonObject.getInt(Constant.NOT_VERIFIED_USERS));
+
                         tvTotalInventory.setText(jsonObject.getString(Constant.TOTAL_INVENTORIES));
 
 //                        for (int i = 0; i < jsonArray.length(); i++) {
