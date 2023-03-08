@@ -95,6 +95,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
+                android:visibility="gone"
                 android:layout_gravity="bottom|right"
                 android:layout_margin="@dimen/_10sdp"
                 app:cardCornerRadius="@dimen/_60sdp">
@@ -131,6 +132,14 @@
 
                 <TextView
                     android:id="@+id/tvTodayInventory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text=""
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_12sdp" />
+                <TextView
+                    android:id="@+id/tvNotVerified"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
