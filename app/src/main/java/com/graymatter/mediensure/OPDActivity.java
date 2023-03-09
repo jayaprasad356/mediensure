@@ -57,21 +57,19 @@ import java.util.concurrent.TimeUnit;
 public class OPDActivity extends AppCompatActivity {
 
 
-    EditText etaddress, etemail, etmobile,etOtp;
+    EditText etaddress, etemail, etmobile, etOtp;
     Spinner spinner;
     Activity activity;
     Session session;
     private ArrayList permissionsToRequest;
     private ArrayList permissionsRejected = new ArrayList();
     private ArrayList permissions = new ArrayList();
-    Button btnPickLocation, btnAdd,btnSendOTP;
+    Button btnPickLocation, btnAdd, btnSendOTP;
     private FirebaseAuth mAuth;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     String TAG = "OTPACT";
     private String mVerificationId = "";
-    RadioGroup rgLabService,rgRadiology;
-
-
+    RadioGroup rgLabService, rgRadiology;
 
 
     private final static int ALL_PERMISSIONS_RESULT = 101;
@@ -86,8 +84,8 @@ public class OPDActivity extends AppCompatActivity {
     private ImageView imageView;
 
     ImageButton ibBack;
-    String Radiology="yes";
-    String Lab="yes";
+    String Radiology = "yes";
+    String Lab = "yes";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -118,10 +116,10 @@ public class OPDActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton checkedRadioButton = group.findViewById(checkedId);
                 String radioButtonText = checkedRadioButton.getText().toString();
-               // Toast.makeText(getApplicationContext(), "Selected: " + radioButtonText, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Selected: " + radioButtonText, Toast.LENGTH_SHORT).show();
 
 
-                 Lab = radioButtonText.toString().trim();
+                Lab = radioButtonText.toString().trim();
 
 
             }
@@ -131,7 +129,7 @@ public class OPDActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton checkedRadioButton = group.findViewById(checkedId);
                 String radioButtonText = checkedRadioButton.getText().toString();
-               // Toast.makeText(getApplicationContext(), "Selected: " + radioButtonText, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Selected: " + radioButtonText, Toast.LENGTH_SHORT).show();
 
 
                 Radiology = radioButtonText.toString().trim();
@@ -141,27 +139,26 @@ public class OPDActivity extends AppCompatActivity {
         });
 
 
-
         btnAdd.setOnClickListener(v -> {
-            if (etaddress.getText().toString().isEmpty()) {
+            if (spinner.getSelectedItem().toString().equals("Select clinic/hospital")) {
+                Toast.makeText(activity, "Please Select Clinic/Hospital", Toast.LENGTH_SHORT).show();
+            } else if (etaddress.getText().toString().isEmpty()) {
                 etaddress.setError("Enter Valid Address");
                 etaddress.requestFocus();
             } else if (!etemail.getText().toString().contains("@")) {
                 etemail.setError("Enter Valid Email");
                 etemail.requestFocus();
-            }else if (etmobile.getText().toString().isEmpty()) {
+            } else if (etmobile.getText().toString().isEmpty()) {
                 Toast.makeText(activity, "Please Enter Mobile Number", Toast.LENGTH_SHORT).show();
 
-            }else if (etOtp.getText().toString().isEmpty()) {
+            } else if (etOtp.getText().toString().isEmpty()) {
                 Toast.makeText(activity, "Please Enter Otp", Toast.LENGTH_SHORT).show();
 
-            } else if (spinner.getSelectedItem().toString().equals("Select")) {
-                Toast.makeText(activity, "Select Valid City", Toast.LENGTH_SHORT).show();
             }
             // check the location is enable or not
             else if (btnPickLocation.isEnabled()) {
                 Toast.makeText(activity, "Please Pick Location", Toast.LENGTH_SHORT).show();
-            }  else {
+            } else {
 
                 //add data to database
 
@@ -203,7 +200,6 @@ public class OPDActivity extends AppCompatActivity {
             btnPickLocation.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_circle_24, 0);
 
         });
-
 
 
         permissions.add(ACCESS_FINE_LOCATION);
@@ -268,15 +264,17 @@ public class OPDActivity extends AppCompatActivity {
 
             }
         };
-        startPhoneNumberVerification("+91"+etmobile.getText().toString().trim());
+        startPhoneNumberVerification("+91" + etmobile.getText().toString().trim());
 
     }
+
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
         // [START verify_with_code]
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signInWithPhoneAuthCredential(credential);
         // [END verify_with_code]
     }
+
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -285,9 +283,6 @@ public class OPDActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-
-
-
 
 
                             // Update UI
@@ -301,6 +296,7 @@ public class OPDActivity extends AppCompatActivity {
                     }
                 });
     }
+
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
         PhoneAuthOptions options =
@@ -369,7 +365,6 @@ public class OPDActivity extends AppCompatActivity {
             rlAddImage.setVisibility(View.GONE);
         }
     }
-
 
 
     private void gpslocation() {
@@ -490,7 +485,6 @@ public class OPDActivity extends AppCompatActivity {
         params.put(Constant.IMAGE, String.valueOf(imageView));
         params.put(Constant.LAB_SERVICE, Lab.toString().trim());
         params.put(Constant.RADIOLOGY_SERVICE, Radiology.toString().trim());
-
 
 
         ApiConfig.RequestToVolley((result, response) -> {

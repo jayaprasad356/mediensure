@@ -3,7 +3,7 @@
 
 
     <string-array name="array_spinner1" >
-
+        <item>Select clinic/hospital</item>
         <item>Clinic</item>
         <item>Hospital</item>
 
