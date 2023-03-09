@@ -3,6 +3,7 @@ package com.graymatter.mediensure;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.graymatter.mediensure.helper.ApiConfig;
@@ -21,7 +23,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class EditPharmacyActivity extends AppCompatActivity {
@@ -83,6 +90,84 @@ public class EditPharmacyActivity extends AppCompatActivity {
         remarks = getIntent().getStringExtra(Constant.REMARKS);
         operational_hours=getIntent().getStringExtra(Constant.OPERATIONAL_HOURS);
         operational_hours =getIntent().getStringExtra(Constant.OPERATIONAL_HOURS);
+        etFromTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                String fromTime = formatTime(hourOfDay, minute);
+                                etFromTime.setText(fromTime);
+
+                                // Compare etFromTime and etToTime
+                                String toTime = etToTime.getText().toString().trim();
+                                if (!toTime.isEmpty()) {
+                                    try {
+                                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+                                        Date fromDate = sdf.parse(fromTime);
+                                        Date toDate = sdf.parse(toTime);
+
+                                        if (fromDate.after(toDate)) {
+                                            // Show error message
+                                            Toast.makeText(activity, "Please select a correct start time", Toast.LENGTH_SHORT).show();
+                                            etFromTime.setText("");
+                                        }
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        },
+                        calendar.get(Calendar.HOUR_OF_DAY),
+                        calendar.get(Calendar.MINUTE),
+                        false);
+
+                timePickerDialog.show();
+            }
+        });
+
+        etToTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                String toTime = formatTime(hourOfDay, minute);
+                                etToTime.setText(toTime);
+
+                                // Compare etFromTime and etToTime
+                                String fromTime = etFromTime.getText().toString().trim();
+                                if (!fromTime.isEmpty()) {
+                                    try {
+                                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+                                        Date fromDate = sdf.parse(fromTime);
+                                        Date toDate = sdf.parse(toTime);
+
+                                        if (toDate.before(fromDate)) {
+                                            // Show error message
+                                            Toast.makeText(activity, "Please select a correct end time", Toast.LENGTH_SHORT).show();
+                                            etToTime.setText("");
+                                        }
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        },
+                        calendar.get(Calendar.HOUR_OF_DAY),
+                        calendar.get(Calendar.MINUTE),
+                        false);
+
+                timePickerDialog.show();
+            }
+        });
+
         if (operational_hours!=null) {
             String[] hoursArray = operational_hours.split(" - ");
             String startTime = hoursArray[0];
@@ -107,7 +192,19 @@ public class EditPharmacyActivity extends AppCompatActivity {
         });
 
     }
+    private String formatTime(int hour, int minute) {
+        String amPm;
+        if (hour == 12) {
+            amPm = "PM";
+        } else if (hour > 12) {
+            amPm = "PM";
+            hour -= 12;
+        } else {
+            amPm = "AM";
+        }
 
+        return String.format("%d:%02d %s", hour, minute, amPm);
+    }
     private void updatePharmacy() {
 
         Map<String, String> params = new HashMap<>();

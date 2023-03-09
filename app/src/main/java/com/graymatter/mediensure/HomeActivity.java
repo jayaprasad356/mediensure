@@ -87,8 +87,8 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-                        tvTodayInventory.setText("Verified - "+jsonObject.getInt(Constant.VERIFIED_USERS));
-                        tvNotVerified.setText("Not Verified - "+jsonObject.getInt(Constant.NOT_VERIFIED_USERS));
+                        tvTodayInventory.setText("Verified - "+jsonObject.getInt(Constant.VERIFIED_INVENTORIES));
+                        tvNotVerified.setText("Not Verified - "+jsonObject.getInt(Constant.PENDING_INVENTORIES));
 
                         tvTotalInventory.setText(jsonObject.getString(Constant.TOTAL_INVENTORIES));
 

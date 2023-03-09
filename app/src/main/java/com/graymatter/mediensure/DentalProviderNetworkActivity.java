@@ -46,9 +46,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -118,64 +122,83 @@ public class DentalProviderNetworkActivity extends AppCompatActivity {
             }
         });
 
-        etFromTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etFromTime.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    // Create a Calendar instance to get the current time
-                    final Calendar calendar = Calendar.getInstance();
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
 
-                    // Create a TimePickerDialog and set the current time as the default value
-                    TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
-                            new TimePickerDialog.OnTimeSetListener() {
-                                @Override
-                                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                    // Set the selected time to the EditText
-                                    etFromTime.setText(formatTime(hourOfDay, minute));
+                TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                String fromTime = formatTime(hourOfDay, minute);
+                                etFromTime.setText(fromTime);
+
+                                // Compare etFromTime and etToTime
+                                String toTime = etToTime.getText().toString().trim();
+                                if (!toTime.isEmpty()) {
+                                    try {
+                                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+                                        Date fromDate = sdf.parse(fromTime);
+                                        Date toDate = sdf.parse(toTime);
+
+                                        if (fromDate.after(toDate)) {
+                                            // Show error message
+                                            Toast.makeText(activity, "Please select a correct start time", Toast.LENGTH_SHORT).show();
+                                            etFromTime.setText("");
+                                        }
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            },
-                            calendar.get(Calendar.HOUR_OF_DAY),
-                            calendar.get(Calendar.MINUTE),
-                            false); // Set is24HourView to false
+                            }
+                        },
+                        calendar.get(Calendar.HOUR_OF_DAY),
+                        calendar.get(Calendar.MINUTE),
+                        false);
 
-                    // Show the TimePickerDialog
-                    timePickerDialog.show();
-
-                    // Clear the focus on the EditText to prevent multiple calls
-                    view.clearFocus();
-                }
+                timePickerDialog.show();
             }
         });
 
-        etToTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etToTime.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    // Create a Calendar instance to get the current time
-                    final Calendar calendar = Calendar.getInstance();
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
 
-                    // Create a TimePickerDialog and set the current time as the default value
-                    TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
-                            new TimePickerDialog.OnTimeSetListener() {
-                                @Override
-                                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                    // Set the selected time to the EditText
-                                    etToTime.setText(formatTime(hourOfDay, minute));
+                TimePickerDialog timePickerDialog = new TimePickerDialog(activity,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                String toTime = formatTime(hourOfDay, minute);
+                                etToTime.setText(toTime);
+
+                                // Compare etFromTime and etToTime
+                                String fromTime = etFromTime.getText().toString().trim();
+                                if (!fromTime.isEmpty()) {
+                                    try {
+                                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+                                        Date fromDate = sdf.parse(fromTime);
+                                        Date toDate = sdf.parse(toTime);
+
+                                        if (toDate.before(fromDate)) {
+                                            // Show error message
+                                            Toast.makeText(activity, "Please select a correct end time", Toast.LENGTH_SHORT).show();
+                                            etToTime.setText("");
+                                        }
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            },
-                            calendar.get(Calendar.HOUR_OF_DAY),
-                            calendar.get(Calendar.MINUTE),
-                            false); // Set is24HourView to false
+                            }
+                        },
+                        calendar.get(Calendar.HOUR_OF_DAY),
+                        calendar.get(Calendar.MINUTE),
+                        false);
 
-                    // Show the TimePickerDialog
-                    timePickerDialog.show();
-
-                    // Clear the focus on the EditText to prevent multiple calls
-                    view.clearFocus();
-                }
+                timePickerDialog.show();
             }
         });
-
 
 
         btnSendOTP.setOnClickListener(v -> {

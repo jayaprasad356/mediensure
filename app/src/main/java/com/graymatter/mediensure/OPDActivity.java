@@ -57,7 +57,7 @@ import java.util.concurrent.TimeUnit;
 public class OPDActivity extends AppCompatActivity {
 
 
-    EditText etaddress, etemail, etmobile, etOtp;
+    EditText etaddress, etemail, etmobile, etOtp,etName;
     Spinner spinner;
     Activity activity;
     Session session;
@@ -107,6 +107,7 @@ public class OPDActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         btnSendOTP = findViewById(R.id.btnSendOTP);
         etOtp = findViewById(R.id.etOtp);
+        etName = findViewById(R.id.etName);
         rgLabService = findViewById(R.id.rbLabService);
         rgRadiology = findViewById(R.id.rgRadiology);
 
@@ -142,6 +143,8 @@ public class OPDActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(v -> {
             if (spinner.getSelectedItem().toString().equals("Select clinic/hospital")) {
                 Toast.makeText(activity, "Please Select Clinic/Hospital", Toast.LENGTH_SHORT).show();
+            }else if (etName.getText().toString().isEmpty()) {
+                Toast.makeText(activity, "Please Enter Clinic/Hospital Name", Toast.LENGTH_SHORT).show();
             } else if (etaddress.getText().toString().isEmpty()) {
                 etaddress.setError("Enter Valid Address");
                 etaddress.requestFocus();
@@ -479,7 +482,8 @@ public class OPDActivity extends AppCompatActivity {
         params.put(Constant.MOBILE, etmobile.getText().toString().trim());
         params.put(Constant.EMAIL, etemail.getText().toString().trim());
         params.put(Constant.ADDRESS, etaddress.getText().toString().trim());
-        params.put(Constant.NAME, spinner.getSelectedItem().toString().trim());
+        params.put(Constant.NAME, etName.getText().toString().trim());
+        params.put(Constant.CATEGORY, spinner.getSelectedItem().toString().trim());
         params.put(Constant.LATITUDE, String.valueOf(latitude));
         params.put(Constant.LONGITUDE, String.valueOf(longitude));
         params.put(Constant.IMAGE, String.valueOf(imageView));

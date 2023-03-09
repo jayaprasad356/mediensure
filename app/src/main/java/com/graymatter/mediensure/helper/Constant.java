@@ -36,6 +36,7 @@ public class Constant {
     public static final String USER_ID = "user_id";
     public static final String STATUS = "status";
     public static final String REMARKS = "remarks";
+    public static final String CATEGORY = "category";
 
     public static final String NAME = "name";
     public static final String SEARCH = "search";
@@ -68,9 +69,9 @@ public class Constant {
     public static final String INVENTORY_ID = "inventory_id";
 
     public static final String TODAY_INVENTORIES = "today_inventories";
-    public static final String NOT_VERIFIED_USERS = "not_verified_users";
+    public static final String PENDING_INVENTORIES = "pending_inventories";
 
-    public static final String VERIFIED_USERS = "verified_users";
+    public static final String VERIFIED_INVENTORIES = "verified_inventories";
 
     public static final String LAB_SERVICE = "lab_service";
     public static final String RADIOLOGY_SERVICE = "radiology_service";

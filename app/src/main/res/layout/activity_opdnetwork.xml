@@ -91,6 +91,16 @@
                     style="@style/SpinnerTheme"
                     android:padding="@dimen/_20sdp"
                     />
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_bg1"
+                    android:hint=""
+                    android:padding="@dimen/_14sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/_10sdp" />
 
 
 
