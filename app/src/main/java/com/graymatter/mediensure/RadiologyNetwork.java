@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -49,6 +52,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,7 +70,8 @@ public class RadiologyNetwork extends AppCompatActivity {
     Button btnPickLocation, btnAdd,btnSendOTP;
 
     ImageButton ibBack;
-
+    String filePath1;
+    Uri imageUri;
     Activity activity;
     Session session;
 
@@ -117,7 +122,8 @@ public class RadiologyNetwork extends AppCompatActivity {
 
             //add image from camera and gallery
 
-            showImagePickDialog();
+           // showImagePickDialog();
+            pickImageFromGallery();
 
         });
 
@@ -323,13 +329,14 @@ public class RadiologyNetwork extends AppCompatActivity {
     }
 
     private void pickImageFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_IMAGE_GALLERY);
+
     }
 
 
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -339,17 +346,41 @@ public class RadiologyNetwork extends AppCompatActivity {
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 imageView.setImageBitmap(imageBitmap);
             } else if (requestCode == REQUEST_IMAGE_GALLERY) {
-                // Handle image picked from gallery
-                Uri imageUri = data.getData();
-                imageView.setImageURI(imageUri);
+                if (requestCode == REQUEST_IMAGE_GALLERY) {
+                    imageUri = data.getData();
+                    CropImage.activity(imageUri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setOutputCompressQuality(90)
+                            .setRequestedSize(300, 300)
+                            .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
+                            .setAspectRatio(1, 1)
+                            .start(activity);
+                }
+
+            }else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                assert result != null;
+
+                filePath1 = result.getUriFilePath(activity, true);
+
+                File imgFile = new  File(filePath1);
+
+                if(imgFile.exists()){
+
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+                    imageView.setImageBitmap(myBitmap);
+
+                }
+
             }
+
 
             // Set the visibility of the ImageView to VISIBLE
             imageView.setVisibility(View.VISIBLE);
             rlAddImage.setVisibility(View.GONE);
         }
     }
-
 
     private void showOtp() {
         mAuth = FirebaseAuth.getInstance();
@@ -445,7 +476,7 @@ public class RadiologyNetwork extends AppCompatActivity {
         params.put(Constant.MANAGER_NAME, etName.getText().toString());
         params.put(Constant.CENTER_NAME, etShopName.getText().toString());
         params.put(Constant.OPERATIONAL_HOURS, etFromTime.getText().toString() + " - " + etToTime.getText().toString());
-        params.put(Constant.IMAGE, String.valueOf(imageView));
+        params.put(Constant.IMAGE, filePath1);
 
 
 

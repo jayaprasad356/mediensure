@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageView;
 import com.graymatter.mediensure.helper.ApiConfig;
 import com.graymatter.mediensure.helper.Constant;
 import com.graymatter.mediensure.helper.LocationTrack;
@@ -49,6 +52,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +66,8 @@ public class LabNetworkActivity extends AppCompatActivity {
 
     Activity activity;
     Session session;
-
+    String filePath1;
+    Uri imageUri;
     private final static int ALL_PERMISSIONS_RESULT = 101;
     LocationTrack locationTrack;
     double longitude;
@@ -151,8 +156,9 @@ public class LabNetworkActivity extends AppCompatActivity {
         rlAddImage.setOnClickListener(v -> {
 
             //add image from camera and gallery
+            pickImageFromGallery();
 
-            showImagePickDialog();
+            // showImagePickDialog();
 
         });
 
@@ -339,9 +345,11 @@ public class LabNetworkActivity extends AppCompatActivity {
     }
 
     private void pickImageFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_IMAGE_GALLERY);
+
     }
 
 
@@ -355,10 +363,35 @@ public class LabNetworkActivity extends AppCompatActivity {
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 imageView.setImageBitmap(imageBitmap);
             } else if (requestCode == REQUEST_IMAGE_GALLERY) {
-                // Handle image picked from gallery
-                Uri imageUri = data.getData();
-                imageView.setImageURI(imageUri);
+                if (requestCode == REQUEST_IMAGE_GALLERY) {
+                    imageUri = data.getData();
+                    CropImage.activity(imageUri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setOutputCompressQuality(90)
+                            .setRequestedSize(300, 300)
+                            .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
+                            .setAspectRatio(1, 1)
+                            .start(activity);
+                }
+
+            }else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                assert result != null;
+
+                filePath1 = result.getUriFilePath(activity, true);
+
+                File imgFile = new  File(filePath1);
+
+                if(imgFile.exists()){
+
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+                    imageView.setImageBitmap(myBitmap);
+
+                }
+
             }
+
 
             // Set the visibility of the ImageView to VISIBLE
             imageView.setVisibility(View.VISIBLE);
