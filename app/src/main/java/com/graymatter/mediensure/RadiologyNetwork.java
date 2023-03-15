@@ -476,7 +476,8 @@ public class RadiologyNetwork extends AppCompatActivity {
         params.put(Constant.MANAGER_NAME, etName.getText().toString());
         params.put(Constant.CENTER_NAME, etShopName.getText().toString());
         params.put(Constant.OPERATIONAL_HOURS, etFromTime.getText().toString() + " - " + etToTime.getText().toString());
-        params.put(Constant.IMAGE, filePath1);
+        Map<String, String> FileParams = new HashMap<>();
+        FileParams.put(Constant.IMAGE, filePath1);
 
 
 
@@ -499,7 +500,7 @@ public class RadiologyNetwork extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }, activity, Constant.ADD_RADIOLOGY_NETWORK, params, true);
+        }, activity, Constant.ADD_RADIOLOGY_NETWORK, params, FileParams);
     }
 
     private void startPhoneNumberVerification(String phoneNumber) {

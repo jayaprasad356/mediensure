@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,8 +16,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageView;
 import com.graymatter.mediensure.helper.ApiConfig;
 import com.graymatter.mediensure.helper.Constant;
 import com.graymatter.mediensure.helper.LocationTrack;
@@ -24,21 +31,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class EditLabActivity extends AppCompatActivity {
-    EditText etMobile, etEmail, etAddress, etCenterManager, etCenterOperationalHours, etCenterAddress, etOtp,etCenterName;
+    EditText etMobile, etEmail, etAddress, etCenterManager, etCenterOperationalHours, etCenterAddress, etOtp, etCenterName;
     Button btnAdd, btnPickLocation, btnSendOTP;
     ImageButton ibBack;
-
+    private static final int REQUEST_IMAGE_GALLERY = 2;
     Activity activity;
     Session session;
     private ImageView imageView;
     RadioGroup homeVisit, radiology;
-    RadioButton homevisitYes,homeVisitNo, radiologyYes,radiologyNo;
+    RadioButton homevisitYes, homeVisitNo, radiologyYes, radiologyNo;
     String homevisitData = "yes", radiologyData = "yes";
-
+    String filePath1;
+    Uri imageUri;
     private final static int ALL_PERMISSIONS_RESULT = 101;
     LocationTrack locationTrack;
     public String id;
@@ -56,6 +65,8 @@ public class EditLabActivity extends AppCompatActivity {
     public String image;
     public String remarks;
     public String status;
+    RelativeLayout rlAddImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,13 +79,14 @@ public class EditLabActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etAddress = findViewById(R.id.etAddress);
         etCenterManager = findViewById(R.id.etCenterManager);
-        etCenterName=findViewById(R.id.etCenterName);
+        etCenterName = findViewById(R.id.etCenterName);
         etCenterOperationalHours = findViewById(R.id.etCenterOperationalHours);
         etCenterAddress = findViewById(R.id.etCenterAddress);
         btnAdd = findViewById(R.id.btnAdd);
         btnPickLocation = findViewById(R.id.btnPickLocation);
         imageView = findViewById(R.id.imageView);
         ibBack = findViewById(R.id.ibBack);
+        rlAddImage = findViewById(R.id.rlAddImage);
 
         homeVisit = findViewById(R.id.rgHomeVisit);
         homevisitYes = findViewById(R.id.rbYes);
@@ -94,6 +106,18 @@ public class EditLabActivity extends AppCompatActivity {
         radiologyTest = getIntent().getStringExtra(Constant.RADIOLOGY_TEST);
         HomeVisit = getIntent().getStringExtra(Constant.HOME_VISIT);
         image = getIntent().getStringExtra(Constant.IMAGE);
+        if (!image.equals("https://mediensure.graymatterworks.com/upload/images/")) {
+            imageView.setVisibility(View.VISIBLE);
+            Glide.with(activity).load(image).into(imageView);
+        }
+        rlAddImage.setOnClickListener(v -> {
+
+            //add image from camera and gallery
+            pickImageFromGallery();
+
+            // showImagePickDialog();
+
+        });
         datetime = getIntent().getStringExtra(Constant.DATETIME);
         latitude = getIntent().getStringExtra(Constant.LATITUDE);
         longitude = getIntent().getStringExtra(Constant.LONGITUDE);
@@ -126,15 +150,15 @@ public class EditLabActivity extends AppCompatActivity {
                 radiologyData = radioButtonText.toString().trim();
             }
         });
-        if (HomeVisit.equals("Yes")){
+        if (HomeVisit.equals("Yes")) {
             homevisitYes.setChecked(true);
-        }else {
+        } else {
             homeVisitNo.setChecked(true);
 
         }
-        if (radiologyTest.equals("Available")){
+        if (radiologyTest.equals("Available")) {
             radiologyYes.setChecked(true);
-        }else {
+        } else {
             radiologyNo.setChecked(true);
         }
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -145,11 +169,20 @@ public class EditLabActivity extends AppCompatActivity {
         });
 
     }
+
+    private void pickImageFromGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_IMAGE_GALLERY);
+
+    }
+
     private void updateLabNW() {
         Map<String, String> params = new HashMap<>();
         params.put(Constant.USER_ID, session.getData(Constant.ID));
         params.put(Constant.INVENTORY_ID, id);
-        params.put(Constant.CENTER_NAME,etCenterName.getText().toString());
+        params.put(Constant.CENTER_NAME, etCenterName.getText().toString());
         params.put(Constant.LATITUDE, String.valueOf(latitude));
         params.put(Constant.LONGITUDE, String.valueOf(longitude));
         params.put(Constant.MOBILE, etMobile.getText().toString());
@@ -157,7 +190,8 @@ public class EditLabActivity extends AppCompatActivity {
         params.put(Constant.MANAGER_NAME, etCenterManager.getText().toString());
         params.put(Constant.OPERATIONAL_HOURS, etCenterOperationalHours.getText().toString());
         params.put(Constant.CENTER_ADDRESS, etCenterAddress.getText().toString());
-        params.put(Constant.IMAGE, String.valueOf(imageView));
+        Map<String, String> FileParams = new HashMap<>();
+        FileParams.put(Constant.IMAGE, filePath1);
         params.put(Constant.RADIOLOGY_TEST, radiologyData);
         params.put(Constant.HOME_VISIT, homevisitData);
 
@@ -181,6 +215,47 @@ public class EditLabActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }, activity, Constant.UPDATE_LAB_NETWORK, params, true);
+        }, activity, Constant.UPDATE_LAB_NETWORK, params, FileParams);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_GALLERY) {
+                if (requestCode == REQUEST_IMAGE_GALLERY) {
+                    imageUri = data.getData();
+                    CropImage.activity(imageUri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setOutputCompressQuality(90)
+                            .setRequestedSize(300, 300)
+                            .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
+                            .setAspectRatio(1, 1)
+                            .start(activity);
+                }
+
+            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                assert result != null;
+
+                filePath1 = result.getUriFilePath(activity, true);
+
+                File imgFile = new File(filePath1);
+
+                if (imgFile.exists()) {
+
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+                    imageView.setImageBitmap(myBitmap);
+
+                }
+
+            }
+
+
+            // Set the visibility of the ImageView to VISIBLE
+            imageView.setVisibility(View.VISIBLE);
+            rlAddImage.setVisibility(View.GONE);
+        }
     }
 }

@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.canhub.cropper.CropImage;
 import com.canhub.cropper.CropImageView;
 import com.graymatter.mediensure.helper.ApiConfig;
@@ -411,7 +412,8 @@ public class LabNetworkActivity extends AppCompatActivity {
         params.put(Constant.MANAGER_NAME, etCenterManager.getText().toString());
         params.put(Constant.OPERATIONAL_HOURS, etCenterOperationalHours.getText().toString());
         params.put(Constant.CENTER_ADDRESS, etCenterAddress.getText().toString());
-        params.put(Constant.IMAGE, String.valueOf(imageView));
+        Map<String, String> FileParams = new HashMap<>();
+        FileParams.put(Constant.IMAGE, filePath1);
         params.put(Constant.RADIOLOGY_TEST, radiologyData);
         params.put(Constant.HOME_VISIT, homevisitData);
 
@@ -435,7 +437,7 @@ public class LabNetworkActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }, activity, Constant.ADD_LAB_NETWORK, params, true);
+        }, activity, Constant.ADD_LAB_NETWORK, params, FileParams);
     }
 
     private void gpslocation() {
